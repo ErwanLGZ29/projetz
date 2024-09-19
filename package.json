@@ -1,0 +1,33 @@
+{
+    "name": "projetz",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "nuxt build",
+        "dev": "nuxt dev",
+        "start": "nuxt start",
+        "generate": "nuxt generate",
+        "preview": "nuxt preview",
+        "postinstall": "nuxt prepare",
+        "lint": "eslint --ext .js,.vue .",
+        "lint:fix": "eslint --ext .js,.vue . --fix"
+    },
+    "dependencies": {
+        "@pinia/nuxt": "^0.5.1",
+        "nuxt": "^3.13.0",
+        "pinia": "^2.0.36",
+        "vue": "latest",
+        "vue-router": "latest"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^19.5.0",
+        "@commitlint/config-conventional": "^19.5.0",
+        "@commitlint/types": "^19.5.0",
+        "@vitejs/plugin-vue": "^4.3.0",
+        "eslint": "^8.50.0",
+        "eslint-plugin-vue": "^9.17.0",
+        "husky": "^9.1.6",
+        "vite": "^4.4.9"
+    }
+  }
+  
