@@ -29,7 +29,8 @@
   </template>
 
   
-  <style scoped>
+  <style>
+  @import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700');
     .main-Panel{
         width: 100%;
         height: auto;

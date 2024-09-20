@@ -1,18 +1,17 @@
 <template>
+  <Navbar />
     <div>
-      <Navbar />
       <slot />
     </div>
+    <Footer />
   </template>
   
   <script setup>
     import Navbar from '~/components/Navbar.vue'
+    import Footer from '~/components/Footer.vue'
   </script>
 
   <style>
-    @import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700');
-
-
     :root {
         --main-color: #00093c;   /* Couleur principale */
         --second-color: #173e9c; /* Variante plus sombre */
