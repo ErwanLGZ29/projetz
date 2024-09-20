@@ -25,7 +25,6 @@
     body {
         width: 100%;
         height: 100%;
-        font-family: "Playfair Display", Georgia, serif;
         color: var(--second-text-color);
         background: var(--main-background-color);
         margin: 0; /* Ajout pour éviter les marges par défaut */

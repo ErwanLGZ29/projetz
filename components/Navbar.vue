@@ -70,10 +70,11 @@
         border-radius: 5rem;
     }
 
-    a {
+    a { 
+        font-family: "Playfair Display", Georgia, serif;
         font-size: 1.5rem;
-        text-decoration: none;
         color: var(--main-text-color);
+        text-decoration: none;
         text-shadow: 1px 1px 2px black;
         border: none;
         background: none;

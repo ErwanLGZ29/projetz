@@ -45,15 +45,16 @@
     }
 
     h1 {
+        font-family: "Playfair Display", Georgia, serif;
         color: var(--main-text-color);
-        font-size: 4rem;
+        font-size: 6rem;
         position: absolute;
         z-index: 2;
     }
 
     .desc-Panel {
         width: 60%;
-        margin: 0 auto;
+        margin: 0 auto 10rem;
         padding: 1rem;
        
     }
@@ -65,10 +66,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 3rem;
-        margin-top: 3rem;
+        margin-top: 7rem;
         border-radius: 1rem;
-        box-shadow: 5px 5px 10px rgb(173, 173, 173);
+        box-shadow: 5px 5px 10px #00093c8c;
     }
 
     .desc-Panel-Article img {
@@ -81,5 +81,32 @@
         width: 50%;
         height: auto;
         padding: 2rem;
+        font-size: 1.5rem;
+    }
+
+    @media screen and (max-width: 1300px) {
+        .desc-Panel {
+            width: 80%;
+        }
+    }
+
+    @media screen and (max-width: 650px) {
+
+        h1 {
+            font-size: 3rem;
+        }
+        .desc-Panel {
+            width: 90%;
+        }
+
+        .desc-Panel-Article {
+            flex-direction: column;
+            margin-top: 4rem;
+        }
+
+        .desc-Panel-Article img, .desc-Panel-Article p{
+            width: 100%;
+            font-size: 1rem;
+        }
     }
   </style>
