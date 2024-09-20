@@ -4,18 +4,19 @@
                 <img class="github-logo" src="/github.jpg" alt="github" />
                 <a href="https://github.com/ErwanLGZ29/projetz" target="_blank">https://github.com/ErwanLGZ29/projetz</a>
             </div>
-            <p>© 2024 Le Break Dance. Tous droits réservés.</p>
+            <p>© 2024 ProjetZ. Tous droits réservés.</p>
         </div>
 </template>
 
 <style>
     .footer-container {
-        width: 98;
+        width: 98%;
         height: auto;
         margin: auto;
         padding: 1%;
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
         background-color: var(--main-color);
     }

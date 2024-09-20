@@ -1,9 +1,10 @@
 <template>
-  <Navbar />
     <div>
+      <Navbar />
       <slot />
+      <Footer />
     </div>
-    <Footer />
+   
   </template>
   
   <script setup>
