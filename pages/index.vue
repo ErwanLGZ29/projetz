@@ -1,7 +1,10 @@
 <template>
     <div class="container">
-        <div class="desc-Panel">
+        <div class="main-Panel">
+            <img src='/background.jpg' className="background-image" alt="bg" />
             <h1>Le Break Dance</h1>
+        </div>
+        <div class="desc-Panel">
             <div className='desc-Panel-Article'>
                 <img src='/hong10.png' className="desc-image" alt="hong10" />
                 <p>Le breakdance, aussi appelé breaking est un style de danse développé à New York dans les années 1970,
@@ -27,25 +30,56 @@
 
   
   <style scoped>
+    .main-Panel{
+        width: 100%;
+        height: auto;
+        background-color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .background-image{
+        width: 100%;
+        height: auto;
+    }
+
+    h1 {
+        color: var(--main-text-color);
+        font-size: 4rem;
+        position: absolute;
+        z-index: 2;
+    }
+
     .desc-Panel {
         width: 60%;
         margin: 0 auto;
         padding: 1rem;
+       
     }
 
     .desc-Panel-Article {
         width: 100%;
-        color: var(--second-text-color);;
+        background-color: var(--second-background-color);
+        color: var(--second-text-color);
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 3rem;
         margin-top: 3rem;
+        border-radius: 1rem;
+        box-shadow: 5px 5px 10px rgb(173, 173, 173);
     }
 
     .desc-Panel-Article img {
         width: 50%;
         height: auto;
         border-radius: 1rem;
+    }
+
+    .desc-Panel-Article p {
+        width: 50%;
+        height: auto;
+        padding: 2rem;
     }
   </style>
