@@ -6,7 +6,9 @@
     </div>
 </template>
 
+
 <script>
+    //Description card component 
     export default {
         name: 'CardDesc',
         props: {
@@ -28,6 +30,7 @@
             }
         },
         computed: {
+        //Description card with line breaks removed
         formattedDescription() {
             return this.description.replace(/\r?\n|\r/g, " ");
         },

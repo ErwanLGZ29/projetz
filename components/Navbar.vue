@@ -12,6 +12,7 @@
 </template>
 
 <script>
+    // Navbar component change the background color when scrolling down
     export default {
         data() {
             return {
