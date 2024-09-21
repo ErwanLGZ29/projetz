@@ -44,6 +44,8 @@ export default {
 </script>
 
   <style>
+  
+  @import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700');
     img{
         width: 100%;
         height: auto;
@@ -56,7 +58,6 @@ export default {
         align-items: center;
         justify-content: center;
     }
-    @import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700');
     h1 {
         font-family: "Playfair Display", Georgia, serif;
         color: var(--main-text-color);

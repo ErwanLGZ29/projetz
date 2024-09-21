@@ -6,10 +6,11 @@
     "types": ["jest", "@types/jest"],
     "strict": true,
     "skipLibCheck": true,
-    "verbatimModuleSyntax": false
+    "verbatimModuleSyntax": false,
+    "esModuleInterop": true 
   },
   "include": [
     "src/**/*", 
-    "tests/**/*"
+    "tests/**/*",
   ]
 }
