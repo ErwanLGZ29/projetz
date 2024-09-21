@@ -1,13 +1,14 @@
 <template>
-    <div class="cart-Desc">
+    <div class="card-container">
+        <div v-if="alternative" class="card-description"><p>{{ formattedDescription }}</p></div>
         <img :src="imageSrc" :alt="imageAlt" class="card-image" />
-        <p>{{ description }}</p>
+        <div v-if="!alternative" class="card-description"><p>{{ formattedDescription }}</p></div>
     </div>
-  </template>
+</template>
 
 <script>
     export default {
-        name: 'cardDesc',
+        name: 'CardDesc',
         props: {
             imageSrc: {
                 type: String,
@@ -20,14 +21,23 @@
             description: {
                 type: String,
                 required: true
+            },
+            alternative: {
+                type: Boolean,
+                default: false
             }
-        }
-    }
+        },
+        computed: {
+        formattedDescription() {
+            return this.description.replace(/\r?\n|\r/g, " ");
+        },
+  },
+    };
 </script>
 
 
 <style scoped>
-    .cart-Desc {
+    .card-container {
         width: 100%;
         background-color: var(--second-background-color);
         color: var(--second-text-color);
@@ -35,32 +45,48 @@
         align-items: center;
         justify-content: center;
         margin-top: 7rem;
+
         border-radius: 1rem;
         box-shadow: 5px 5px 10px #00093c8c;
     }
 
-    .cart-Desc img {
+    .card-container img {
         width: 50%;
         height: auto;
         border-radius: 1rem;
     }
 
-    .cart-Desc p {
+    .card-description{
         width: 50%;
         height: auto;
-        padding: 2rem;
+        margin: 0;
+        padding: 0;
+    }
+
+    .card-container p {
         font-size: 1.5rem;
+        padding: 1rem;
+        margin: 0;
+    }
+
+    @media screen and (max-width: 1300px) {
+        .card-container p{
+            font-size: 1rem;
+        }
     }
 
     @media screen and (max-width: 768px) {
-        .cart-Desc {
+        .card-container {
             flex-direction: column;
             margin-top: 4rem;
         }
 
-        .cart-Desc img, .cart-Desc p{
+        .card-container img, .card-description{
             width: 100%;
-            font-size: 1rem;
+        }
+
+        .card-description p{
+            font-size: 0.8rem;
         }
     }
 </style>

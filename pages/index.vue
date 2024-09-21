@@ -1,12 +1,12 @@
 <template>
     <div class="container">
         <div class="main-Panel">
-            <img src='/background.jpg' className="background-image" alt="bg" />
+            <img src="/background.jpg" className="background-image" alt="bg" />
             <h1>Le Break Dance</h1>
         </div>
         <div class="desc-Panel">
 
-            <cardDesc
+            <CardDesc
                 imageSrc="/hong10.png"
                 imageAlt="hong10"
                 description="Le breakdance, aussi appelé breaking est un style de danse développé à New York dans les années 1970,
@@ -14,14 +14,15 @@
                         Bgirl (pour une femme)."
             />
 
-            <cardDesc
+            <CardDesc
                 imageSrc="/carlota.jpg"
                 imageAlt="carlota"
                 description="Bien qu’on pense qu'il est né aux États-Unis, des archives montrent qu'une forme de breaking était dansée en Afrique,
                 plus exactement à Kaduna, au Nigéria, dans les années 19502."
+                :alternative="true"
             />
 
-            <cardDesc
+            <CardDesc
                 imageSrc="/yuasa.jpg"
                 imageAlt="yuasa"
                 description="En France, la première apparition officielle du breaking remonte à la tournée New York City Rap organisée par Europe 1 en 1982.
@@ -33,17 +34,20 @@
   </template>
 
 <script>
-import cardDesc from './components/CardDesc.vue';
+import CardDesc from './components/CardDesc.vue';
 
 export default {
   components: {
-    cardDesc
+    CardDesc
   }
 }
 </script>
 
-  <style scoped>
-  @import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700');
+  <style>
+    img{
+        width: 100%;
+        height: auto;
+    }
     .main-Panel{
         width: 100%;
         height: auto;
@@ -52,12 +56,7 @@ export default {
         align-items: center;
         justify-content: center;
     }
-
-    .background-image{
-        width: 100%;
-        height: auto;
-    }
-
+    @import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700');
     h1 {
         font-family: "Playfair Display", Georgia, serif;
         color: var(--main-text-color);
@@ -90,6 +89,7 @@ export default {
         }
         .desc-Panel {
             width: 90%;
+            margin: 0 auto 5rem;
         }
     }
   </style>

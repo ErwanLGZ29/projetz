@@ -8,7 +8,7 @@
         </div>
 </template>
 
-<style>
+<style scoped>
     .footer-container {
         width: 98%;
         height: auto;
@@ -38,5 +38,11 @@
         width: 2rem;
         height: 2rem;
         border-radius: 2rem;
+    }
+
+    @media screen and (max-width: 768px) {
+        .github-container a,  .footer-container p {
+            font-size: 1rem;
+        }
     }
 </style>

@@ -1,14 +1,13 @@
 <template>
     <nav :class="{'colored': isColored}">
         <div class="navigation-container">
-            <img class="logo" src="/breakdance-picto.jpg" alt="logo" />
-            <NuxtLink to="/">Acceuil</NuxtLink>
-            <NuxtLink to="/about">A propos</NuxtLink>
+            <a href="/"><img class="logo" src="/breakdance-picto.jpg" alt="logo" /></a>
+            <NuxtLink to="/">L'histoire</NuxtLink>
+            <NuxtLink to="/about">Les Compétitions</NuxtLink>
         </div>
         <div class="login-container">
             <NuxtLink to="/">Connexion</NuxtLink>
         </div>
-        
     </nav>
 </template>
 
@@ -37,7 +36,7 @@
     };
 </script>
 
-<style>
+<style scoped>
     nav {
         width: 98%;
         position: fixed;
@@ -82,6 +81,17 @@
     }
 
     a:hover {
-    text-decoration: underline;
+        text-decoration: underline;
+    }
+
+    @media screen and (max-width: 768px) {
+
+        .navigation-container, .login-container{
+            gap: 1rem;
+        }
+
+        a {
+            font-size: 1rem;
+        }
     }
 </style>
