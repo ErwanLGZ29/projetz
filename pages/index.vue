@@ -1,51 +1,96 @@
 <template>
     <div class="container">
-        <div class="desc-Panel">
+        <div class="main-Panel">
+            <img src="/background.jpg" className="background-image" alt="bg" />
             <h1>Le Break Dance</h1>
-            <div className='desc-Panel-Article'>
-                <img src='/hong10.png' className="desc-image" alt="hong10" />
-                <p>Le breakdance, aussi appelé breaking est un style de danse développé à New York dans les années 1970,
-                caractérisé par ses mouvements de corps saccadés, son aspect acrobatique et ses figures au sol. Un danseur de breaking est appelé Bboy (pour un homme),
-                Bgirl (pour une femme).</p>
-            </div>
+        </div>
+        <div class="desc-Panel">
 
-            <div className='desc-Panel-Article'>
-                <p>Bien qu’on pense qu'il est né aux États-Unis, des archives montrent qu'une forme de breaking était dansée en Afrique,
-                plus exactement à Kaduna, au Nigéria, dans les années 19502.</p>
-                <img src='/carlota.jpg' className="desc-image" alt="carlota" />
-            </div>  
+            <CardDesc
+                imageSrc="/hong10.png"
+                imageAlt="hong10"
+                description="Le breakdance, aussi appelé breaking est un style de danse développé à New York dans les années 1970,
+                        caractérisé par ses mouvements de corps saccadés, son aspect acrobatique et ses figures au sol. Un danseur de breaking est appelé Bboy (pour un homme),
+                        Bgirl (pour une femme)."
+            />
 
-            <div className='desc-Panel-Article'>
-                <img src='/yuasa.jpg' className="desc-image" alt="yuasa" />
-                <p>En France, la première apparition officielle du breaking remonte à la tournée New York City Rap organisée par Europe 1 en 1982.
+            <CardDesc
+                imageSrc="/carlota.jpg"
+                imageAlt="carlota"
+                description="Bien qu’on pense qu'il est né aux États-Unis, des archives montrent qu'une forme de breaking était dansée en Afrique,
+                plus exactement à Kaduna, au Nigéria, dans les années 19502."
+                :alternative="true"
+            />
+
+            <CardDesc
+                imageSrc="/yuasa.jpg"
+                imageAlt="yuasa"
+                description="En France, la première apparition officielle du breaking remonte à la tournée New York City Rap organisée par Europe 1 en 1982.
                  En 1984, l'émission télévisée de Sydney, H.I.P. H.O.P. popularise la culture hip-hop en France;
-                 le jury de l'émission était les P.C.B. (Paris City Breakers).</p>
-            </div>  
+                 le jury de l'émission était les P.C.B. (Paris City Breakers)."
+            />
         </div>
     </div>
   </template>
 
-  
-  <style scoped>
-    .desc-Panel {
-        width: 60%;
-        margin: 0 auto;
-        padding: 1rem;
-    }
+<script>
+import CardDesc from './components/CardDesc.vue';
 
-    .desc-Panel-Article {
+export default {
+  components: {
+    CardDesc
+  }
+}
+</script>
+
+  <style>
+  
+  @import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700');
+    img{
         width: 100%;
-        color: var(--second-text-color);;
+        height: auto;
+    }
+    .main-Panel{
+        width: 100%;
+        height: auto;
+        background-color: black;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 3rem;
-        margin-top: 3rem;
+    }
+    h1 {
+        font-family: "Playfair Display", Georgia, serif;
+        color: var(--main-text-color);
+        font-size: 6rem;
+        position: absolute;
+        z-index: 2;
     }
 
-    .desc-Panel-Article img {
-        width: 50%;
-        height: auto;
-        border-radius: 1rem;
+    .desc-Panel {
+        width: 60%;
+        margin: 0 auto 10rem;
+        padding: 1rem;
+       
+    }
+
+    
+
+    
+
+    @media screen and (max-width: 1300px) {
+        .desc-Panel {
+            width: 80%;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+
+        h1 {
+            font-size: 3rem;
+        }
+        .desc-Panel {
+            width: 90%;
+            margin: 0 auto 5rem;
+        }
     }
   </style>
