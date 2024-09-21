@@ -19,3 +19,21 @@ Start the development server on `http://localhost:3000`:
 # npm
 npm run dev
 ```
+
+## Run unit tests
+
+To run the tests with Jest
+
+```bash
+# npm
+npm run test:unit
+```
+
+## Run E2E tests
+To run the E2E tests with cypress, the development server must be started
+
+```bash
+# npm
+npm run test:e2e
+```
+
