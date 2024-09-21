@@ -6,7 +6,7 @@
         </div>
         <div class="desc-Panel">
 
-            <CardDesc
+            <DescCard
                 imageSrc="/hong10.png"
                 imageAlt="hong10"
                 description="Le breakdance, aussi appelé breaking est un style de danse développé à New York dans les années 1970,
@@ -14,7 +14,7 @@
                         Bgirl (pour une femme)."
             />
 
-            <CardDesc
+            <DescCard
                 imageSrc="/carlota.jpg"
                 imageAlt="carlota"
                 description="Bien qu’on pense qu'il est né aux États-Unis, des archives montrent qu'une forme de breaking était dansée en Afrique,
@@ -22,7 +22,7 @@
                 :alternative="true"
             />
 
-            <CardDesc
+            <DescCard
                 imageSrc="/yuasa.jpg"
                 imageAlt="yuasa"
                 description="En France, la première apparition officielle du breaking remonte à la tournée New York City Rap organisée par Europe 1 en 1982.
@@ -34,16 +34,16 @@
   </template>
 
 <script>
-import CardDesc from './components/CardDesc.vue';
+import DescCard from './components/DescCard.vue';
 
 export default {
   components: {
-    CardDesc
+    DescCard
   }
 }
 </script>
 
-  <style>
+  <style scoped>
   
   @import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700');
     img{
@@ -72,10 +72,6 @@ export default {
         padding: 1rem;
        
     }
-
-    
-
-    
 
     @media screen and (max-width: 1300px) {
         .desc-Panel {
