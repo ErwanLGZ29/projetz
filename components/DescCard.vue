@@ -1,7 +1,7 @@
 <template>
     <div class="card-container">
-        <div v-if="alternative" class="card-description"><p>{{ formattedDescription }}</p></div>
-        <img :src="imageSrc" :alt="imageAlt" class="card-image" />
+        <div v-if="alternative" class="card-description" ><p>{{ formattedDescription }}</p></div>
+        <img :src="imageSrc" :alt="imageAlt" class="card-image" :class="{ 'alternative': alternative}"/>
         <div v-if="!alternative" class="card-description"><p>{{ formattedDescription }}</p></div>
     </div>
 </template>
@@ -10,7 +10,7 @@
 <script>
     //Description card component 
     export default {
-        name: 'CardDesc',
+        name: 'DescCard',
         props: {
             imageSrc: {
                 type: String,
@@ -56,8 +56,13 @@
     .card-container img {
         width: 50%;
         height: auto;
-        border-radius: 1rem;
+        border-radius: 1rem 0 0 1rem;
     }
+
+    .card-container img.alternative{
+        border-radius: 0 1rem 1rem 0;
+    }
+
 
     .card-description{
         width: 50%;
@@ -90,6 +95,15 @@
 
         .card-description p{
             font-size: 0.8rem;
+        }
+
+        .card-container img {
+       
+        border-radius: 1rem 1rem 0 0 ;
+        }
+
+        .card-container img.alternative{
+            border-radius: 0  0 1rem 1rem;
         }
     }
 </style>

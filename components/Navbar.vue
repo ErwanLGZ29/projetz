@@ -3,7 +3,7 @@
         <div class="navigation-container">
             <a href="/"><img class="logo" src="/breakdance-picto.jpg" alt="logo" /></a>
             <NuxtLink to="/">L'histoire</NuxtLink>
-            <NuxtLink to="/about">Les Compétitions</NuxtLink>
+            <NuxtLink to="/competitions">Les Compétitions</NuxtLink>
         </div>
         <div class="login-container">
             <NuxtLink to="/">Connexion</NuxtLink>
@@ -19,19 +19,38 @@
             isColored: false
             };
         },
+        // Add event listener on window when component is mounted to change
+        // navbar background color when scrolling down.
         mounted() {
             window.addEventListener('scroll', this.handleScroll);
         },
         beforeDestroy() {
             window.removeEventListener('scroll', this.handleScroll);
         },
+        watch: {
+            $route($to, $from) {
+                this.checkRoute();
+            }
+        },
         methods: {
             handleScroll() {
-            if (window.scrollY > 50) {
-                this.isColored = true;
-            } else {
-                this.isColored = false;
-            }
+                if(this.$route.name == 'index') {
+                    if (window.scrollY > 50) {
+                        this.isColored = true;
+                    } else {
+                        this.isColored = false;
+                    }
+                }else{
+                    this.isColored = true;
+                }
+            },
+
+            checkRoute() {
+                if(this.$route.name === 'index') {
+                    this.isColored = true;
+                }else{
+                    this.isColored = false;
+                }
             }
         }
     };
