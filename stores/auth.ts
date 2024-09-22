@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
-import { authService } from '@/services/authService'; // Assurez-vous que le chemin est correct
+import { authService } from '~/services/authService';
 
 interface User {
     username: string;
     email: string;
-    // Ajoutez d'autres propriétés selon votre modèle User
+    password: string;
 }
 
 interface AuthState {

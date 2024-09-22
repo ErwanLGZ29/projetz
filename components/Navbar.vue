@@ -62,7 +62,6 @@
             },
 
             checkRoute(routeName) {
-                console.log(routeName);
                 if(routeName === 'index') {
                     this.isColored = false;
                 }else{

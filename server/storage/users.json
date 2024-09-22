@@ -1,5 +1,10 @@
 [
   {
+    "username": "usertest",
+    "email": "usertest@mail.com",
+    "password": "password123"
+  },
+  {
     "username": "ErwanLz",
     "email": "erwan@mail.com",
     "password": "password"
@@ -10,7 +15,7 @@
     "password": "passpass"
   },
   {
-    "username": "ErwanLz",
+    "username": "ErwanLGZ",
     "email": "dzadzad@mail.com",
     "password": "sdsqdqsd"
   },
