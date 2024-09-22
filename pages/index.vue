@@ -50,6 +50,7 @@ export default {
         width: 100%;
         height: auto;
     }
+
     .main-Panel{
         width: 100%;
         height: auto;

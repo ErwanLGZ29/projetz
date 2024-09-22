@@ -38,13 +38,6 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700');
-
-h1 {
-  font-family: "Playfair Display", Georgia, serif;
-  color: var(--main-color);
-  font-size: 6rem;
-}
 
 .competition-container {
   width: 80%;
@@ -71,10 +64,6 @@ h1 {
 }
 
 @media screen and (max-width: 768px) {
-  h1 {
-    font-size: 2.4rem;
-  }
-
   .competition-cards {
     grid-template-columns: 1fr;
   }

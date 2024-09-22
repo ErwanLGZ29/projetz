@@ -20,6 +20,16 @@ Start the development server on `http://localhost:3000`:
 npm run dev
 ```
 
+## Back end server
+
+Start the back end server on `http://localhost:5000`:
+
+```bash
+# npm
+cd server
+node server.js
+```
+
 ## Run unit tests
 
 To run the tests with Jest

@@ -1,7 +1,9 @@
 <template>
     <div class="card-container">
         <div v-if="alternative" class="card-description" ><p>{{ formattedDescription }}</p></div>
-        <img :src="imageSrc" :alt="imageAlt" class="card-image" :class="{ 'alternative': alternative}"/>
+        <div class="card-image-container" :class="{ 'alternative': alternative}">
+            <img :src="imageSrc" :alt="imageAlt"/>
+        </div>
         <div v-if="!alternative" class="card-description"><p>{{ formattedDescription }}</p></div>
     </div>
 </template>
@@ -53,16 +55,27 @@
         box-shadow: 5px 5px 10px #00093c8c;
     }
 
-    .card-container img {
+    .card-image-container{
         width: 50%;
         height: auto;
         border-radius: 1rem 0 0 1rem;
+        overflow: hidden;
     }
 
-    .card-container img.alternative{
+    .card-image-container.alternative{
         border-radius: 0 1rem 1rem 0;
     }
 
+    .card-image-container img {
+        width: 100%;
+        height: auto;
+        transition: 0.5s ease-in-out;
+        transform: scale(1.03);
+    }
+
+    .card-image-container img:hover{
+        transform: scale(1.2);
+    }
 
     .card-description{
         width: 50%;
@@ -89,7 +102,7 @@
             margin-top: 4rem;
         }
 
-        .card-container img, .card-description{
+        .card-image-container, .card-description{
             width: 100%;
         }
 
@@ -97,12 +110,12 @@
             font-size: 0.8rem;
         }
 
-        .card-container img {
+        .card-image-container  {
        
         border-radius: 1rem 1rem 0 0 ;
         }
 
-        .card-container img.alternative{
+        .card-container.alternative{
             border-radius: 0  0 1rem 1rem;
         }
     }

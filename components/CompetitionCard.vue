@@ -1,6 +1,8 @@
 <template>
     <div class="card-container">
-        <img :src="imageSrc" :alt="imageAlt" class="card-image" />
+        <div class="card-image-container">
+            <img :src="imageSrc" :alt="imageAlt" class="card-image" />
+        </div>
         <div class="card-informations">
             <p class="name"><strong>{{ competitionName }}</strong></p>
             <p class="place"><strong>Lieu :</strong> {{ competitionPlace }}</p>
@@ -52,10 +54,22 @@
         box-shadow: 5px 5px 10px #00093c8c;
     }
 
-    .card-container img {
+    .card-image-container {
         width: 100%;
         height: auto;
+        overflow: hidden;
         border-radius: 1rem  1rem 0rem 0rem;
+    }
+
+    .card-image-container img {
+        width: 100%;
+        height: auto;
+        transition: 0.5s ease-in-out;
+        transform: scale(1.03);
+    }
+
+    .card-image-container img:hover {
+        transform: scale(1.2);
     }
 
     .card-informations{
