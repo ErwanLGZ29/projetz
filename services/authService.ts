@@ -2,12 +2,6 @@ import axios, { AxiosResponse } from "axios";
 
 const API_URL = "http://localhost:5000/api"; // API URL for development
 
-interface RegisterData {
-  username: string;
-  email: string;
-  password: string;
-}
-
 interface LoginResponse {
   token: string;
   user: any;
@@ -45,16 +39,14 @@ function logout(): void {
 }
 
 function deleteUser(email: string, token: string): Promise<AxiosResponse> {
-    if (!token) {
-      return Promise.reject("No token found");
-    }
-  
-    return axios.delete(`${API_URL}/user`, {
-        params: { email },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-    });
+  if (!token) {
+    return Promise.reject("No token found");
   }
 
-
+  return axios.delete(`${API_URL}/user`, {
+    params: { email },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
