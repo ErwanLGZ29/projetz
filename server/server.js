@@ -58,15 +58,15 @@ app.post("/api/login", (req, res) => {
 
 // Update a user
 app.put("/api/user", (req, res) => {
+  console.log('là',req.query);
   authenticate(req, res, () => {
-    const { email } = req.params;
-    const { username, password } = req.body;
+    const { email , username} = req.query;
     let users = readUsersFromFile();
     const userIndex = users.findIndex((user) => user.email === email);
     if (userIndex === -1) {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
-    users[userIndex] = { email, username, password };
+    users[userIndex] = { email: users[userIndex].email, username, password: users[userIndex].password };
     writeUsersToFile(users);
     res.sendStatus(204);
   });
@@ -87,6 +87,7 @@ app.delete("/api/user", (req, res) => {
 const authenticate = (req, res, next) => {
   const token = req.headers["authorization"];
   const { email } = req.query;
+  console.log('Try to authenticate', email, token);
   if (!token) return res.sendStatus(403);
   //remove "Bearer " from token
   jwt.verify(token.replace("Bearer ", ""), SECRET_KEY, (err, decoded) => {

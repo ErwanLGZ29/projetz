@@ -33,6 +33,16 @@ export const useAuthStore = defineStore('auth', {
                 throw error.response?.data?.message || error;
             }
         },
+        async update(email: string, username: string) {
+            try {
+                const token = localStorage.getItem('current_user_token') || 'null';
+                console.log('ici2', email, username, token);
+                const response = await authService.update(email, username, token);
+                this.checkAuthentication();
+            } catch (error: any) {
+                throw error.response?.data?.message || error;
+            }
+        },
         logout() {
             authService.logout();
             this.isAuthenticated = false;

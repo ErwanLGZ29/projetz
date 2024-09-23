@@ -7,9 +7,14 @@ interface LoginResponse {
   user: any;
 }
 
+interface UpdateResponse {
+  user: any;
+}
+
 export const authService = {
   register,
   login,
+  update,
   logout,
   deleteUser,
 };
@@ -31,6 +36,19 @@ function login(email: string, password: string): Promise<LoginResponse> {
       localStorage.setItem("current_user", JSON.stringify(user));
       return response.data;
     });
+}
+
+function update(email: string, username: string, token: string): Promise<UpdateResponse> {
+  if (!token) {
+    return Promise.reject("No token found");
+  }
+  console.log('ici3', email, username, token);
+  return axios.put(`${API_URL}/user`, {
+    params: { email, username },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
 
 function logout(): void {

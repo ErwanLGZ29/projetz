@@ -6,7 +6,7 @@
             <NuxtLink to="/competitions">Les Compétitions</NuxtLink>
         </div>
         <div class="login-container">
-            <NuxtLink v-if="authStore.isAuthenticated" to="/" class="profile-link">
+            <NuxtLink v-if="authStore.isAuthenticated" to="/profile" class="profile-link">
                 <img class="profile" src="/userprofile.png" alt="profile" />
                 <p>{{ authStore.user.username }}</p>
             </NuxtLink>
@@ -18,7 +18,6 @@
 
 <script>
 import { useAuthStore } from '~/stores/auth';
-import { authService } from '~/services/authService';
 
 // Navbar component change the background color when scrolling down
 export default {
@@ -91,19 +90,17 @@ nav {
     align-items: center;
     transition: all 0.5s ease-out;
 
+    &.colored {
+        background-image: -webkit-linear-gradient(to right, var(--main-color), var(--second-color));
+        background-image: linear-gradient(to right, var(--main-color), var(--second-color));
+    }
+
     .navigation-container,
     .login-container {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 2rem;
-    }
-
-    .colored {
-        background-image: -webkit-linear-gradient(to right, var(--main-color), var(--second-color));
-        /* Chrome 10-25, Safari 5.1-6 */
-        background-image: linear-gradient(to right, var(--main-color), var(--second-color));
-        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     }
 
     .logo {
