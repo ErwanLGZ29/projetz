@@ -13,81 +13,80 @@
 
 
 <script>
-    //Competition card component 
-    export default {
-        name: 'CompetitionCard',
-        props: {
-            imageSrc: {
-                type: String,
-                required: true
-            },
-            imageAlt: {
-                type: String,
-                default: 'Competition image'
-            },
-            competitionName: {
-                type: String,
-                required: true
-            },
-            competitionPlace: {
-                type: String,
-                required: true
-            },
-            competitionDate: {
-                type: String,
-                required: true
-            }
+//Competition card component 
+export default {
+    name: 'CompetitionCard',
+    props: {
+        imageSrc: {
+            type: String,
+            required: true
         },
-    };
+        imageAlt: {
+            type: String,
+            default: 'Competition image'
+        },
+        competitionName: {
+            type: String,
+            required: true
+        },
+        competitionPlace: {
+            type: String,
+            required: true
+        },
+        competitionDate: {
+            type: String,
+            required: true
+        }
+    },
+};
 </script>
 
 
-<style scoped>
-    .card-container {
-        width: 100%;
-        background-color: var(--second-background-color);
-        color: var(--second-text-color);
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        border-radius: 1rem;
-        box-shadow: 5px 5px 10px #00093c8c;
-    }
+<style lang="scss" scoped>
+.card-container {
+    width: 100%;
+    background-color: var(--second-background-color);
+    color: var(--second-text-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-radius: 1rem;
+    box-shadow: 5px 5px 10px #00093c8c;
 
     .card-image-container {
         width: 100%;
         height: auto;
         overflow: hidden;
-        border-radius: 1rem  1rem 0rem 0rem;
+        border-radius: 1rem 1rem 0 0;
+
+        img {
+            width: 100%;
+            height: auto;
+            transition: 0.5s ease-in-out;
+            transform: scale(1.03);
+
+            &:hover {
+                transform: scale(1.2);
+            }
+        }
     }
 
-    .card-image-container img {
-        width: 100%;
-        height: auto;
-        transition: 0.5s ease-in-out;
-        transform: scale(1.03);
-    }
-
-    .card-image-container img:hover {
-        transform: scale(1.2);
-    }
-
-    .card-informations{
+    .card-informations {
         width: 90%;
         height: auto;
         margin: 0;
         padding: 5%;
-    }
 
-    .card-informations p {
-        margin: 0;
-        padding: 0;
-        text-align: left;
-        font-size: 1.3rem;
-    }
+        p {
+            margin: 0;
+            padding: 0;
+            text-align: left;
+            font-size: 1.3rem;
 
-    .card-informations p strong {
-        color: var(--main-color);
+            strong {
+                color: var(--main-color);
+            }
+        }
     }
-
+}
 </style>

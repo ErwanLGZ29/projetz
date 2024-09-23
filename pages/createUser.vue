@@ -16,47 +16,44 @@
             </div>
         </div>
     </div>
-  </template>
-  
-  <script setup>
-  import { useAuthStore } from '~/stores/auth'
-  
-  const username = ref('')
-  const email = ref('')
-  const password = ref('')
-  const errorMessage = ref('')
-  const authStore = useAuthStore()
-  
-  const register = async () => {
+</template>
+
+<script setup>
+import { useAuthStore } from "~/stores/auth";
+
+const username = ref("");
+const email = ref("");
+const password = ref("");
+const errorMessage = ref("");
+const authStore = useAuthStore();
+
+const register = async () => {
     errorMessage.value = null;
-        try {
-            // Call the register method from the auth service
-            await authStore.register(username.value, email.value, password.value)
+    try {
+        // Call the register method from the auth service
+        await authStore.register(username.value, email.value, password.value);
 
-            errorMessage.value = null;
-            // Redirect to the login page
-            navigateTo('/login');
-        } catch (error) {
-            // Display an error message
-            errorMessage.value = error;
-        }
-  }
-  </script>
+        errorMessage.value = null;
+        // Redirect to the login page
+        navigateTo("/login");
+    } catch (error) {
+        // Display an error message
+        errorMessage.value = error;
+    }
+};
+</script>
 
+<style lang="scss" scoped>
+.create-container {
+    width: 50%;
+    height: auto;
+    margin: 6rem auto;
+    min-height: 71vh;
+}
 
-<style scoped>
-
+@media screen and (max-width: 768px) {
     .create-container {
-        width: 50%;
-        height: auto;
-        margin: 6rem auto;
-        min-height: 71vh;
+        width: 80%;
     }
-
-    @media screen and (max-width: 768px) {
-        .create-container {
-            width: 80%;
-        }  
-    }
+}
 </style>
-  

@@ -4,30 +4,23 @@
     <slot />
     <Footer />
   </div>
-
 </template>
 
 <script setup>
-import Navbar from '~/components/Navbar.vue'
-import Footer from '~/components/Footer.vue'
+import Navbar from "~/components/Navbar.vue";
+import Footer from "~/components/Footer.vue";
 </script>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+<style lang="scss">
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 :root {
   --main-color: #00093c;
-  /* Couleur principale */
   --second-color: #173e9c;
-  /* Variante plus sombre */
   --main-text-color: #ffffff;
-  /* Couleur de texte principale */
   --second-text-color: #000000;
-  /* Couleur de texte secondaire */
   --main-background-color: #eeeeee;
-  /* Couleur de fond principale */
   --second-background-color: #ffffff;
-  /* Couleur de fond secondaire */
 }
 
 body {
@@ -39,7 +32,6 @@ body {
   color: var(--second-text-color);
   background: var(--main-background-color);
   margin: 0;
-  /* Ajout pour éviter les marges par défaut */
 }
 
 .container {
@@ -62,7 +54,6 @@ p {
   height: auto;
   background-color: var(--second-background-color);
   border-radius: 1rem;
-
 }
 
 form {
@@ -75,35 +66,35 @@ form {
   justify-content: center;
   align-content: center;
   align-items: center;
-}
 
-form input {
-  width: 94%;
-  padding: 3%;
-  height: 0.6rem;
-  border-radius: 2rem;
-  font-size: 1.2rem;
-  border: 1px solid lightgrey;
-}
+  input {
+    width: 94%;
+    padding: 3%;
+    height: 0.6rem;
+    border-radius: 2rem;
+    font-size: 1.2rem;
+    border: 1px solid lightgrey;
 
-form input:focus {
-  outline: none;
-  border: 1px solid var(--main-color);
-}
+    &:focus {
+      outline: none;
+      border: 1px solid var(--main-color);
+    }
+  }
 
-form button {
-  width: 50%;
-  height: 3rem;
-  border-radius: 2rem;
-  background-color: var(--main-color);
-  color: white;
-  font-size: 1.5rem;
-  border: 3px solid var(--main-color);
-}
+  button {
+    width: 50%;
+    height: 3rem;
+    border-radius: 2rem;
+    background-color: var(--main-color);
+    color: white;
+    font-size: 1.5rem;
+    border: 3px solid var(--main-color);
 
-form button:hover {
-  cursor: pointer;
-  background-color: var(--second-color);
+    &:hover {
+      cursor: pointer;
+      background-color: var(--second-color);
+    }
+  }
 }
 
 /* Style scrollbar */

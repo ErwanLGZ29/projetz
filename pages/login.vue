@@ -42,7 +42,7 @@ const loginUser = async () => {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .login-container {
     width: 50%;
     height: auto;
