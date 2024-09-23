@@ -6,12 +6,20 @@
             <NuxtLink to="/competitions">Les Compétitions</NuxtLink>
         </div>
         <div class="login-container">
-            <NuxtLink to="/">Connexion</NuxtLink>
+            <NuxtLink v-if="authStore.isAuthenticated" to="/" class="profile-link">
+                <img class="profile" src="/userprofile.png" alt="profile" />
+                <p>{{authStore.user.username}}</p>
+            </NuxtLink>
+            <NuxtLink v-if="!authStore.isAuthenticated" to="/login">Connexion</NuxtLink>
+            <button class="logout" v-if="authStore.isAuthenticated" @click="logout">Déconnexion</button>
         </div>
     </nav>
 </template>
 
 <script>
+    import { useAuthStore } from '~/stores/auth';
+    import { authService } from '~/services/authService';
+
     // Navbar component change the background color when scrolling down
     export default {
         data() {
@@ -19,22 +27,30 @@
             isColored: false
             };
         },
+        computed: {
+            // Use the authStore in the template
+            authStore() {
+                return useAuthStore();
+            }
+        },
         // Add event listener on window when component is mounted to change
         // navbar background color when scrolling down.
         mounted() {
+            this.authStore.checkAuthentication();
             window.addEventListener('scroll', this.handleScroll);
+            this.checkRoute(this.$route.name);
         },
         beforeDestroy() {
             window.removeEventListener('scroll', this.handleScroll);
         },
         watch: {
             $route($to, $from) {
-                this.checkRoute();
+                this.checkRoute($to.name);
             }
         },
         methods: {
             handleScroll() {
-                if(this.$route.name == 'index') {
+                if(this.$route.name === 'index') {
                     if (window.scrollY > 50) {
                         this.isColored = true;
                     } else {
@@ -45,13 +61,18 @@
                 }
             },
 
-            checkRoute() {
-                if(this.$route.name === 'index') {
-                    this.isColored = true;
-                }else{
+            checkRoute(routeName) {
+                if(routeName === 'index') {
                     this.isColored = false;
+                }else{
+                    this.isColored = true;
                 }
-            }
+            },
+
+            logout() {
+                this.authStore.logout();
+                navigateTo('/'); // Redirection après déconnexion
+            },
         }
     };
 </script>
@@ -90,7 +111,6 @@
     }
 
     a { 
-        font-family: "Playfair Display", Georgia, serif;
         font-size: 1.5rem;
         color: var(--main-text-color);
         text-decoration: none;
@@ -102,6 +122,29 @@
 
     a:hover {
         text-decoration: underline;
+    }
+    .profile-link {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .profile-link .profile {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .profile-link p {
+        margin: 0;
+    }
+
+    .logout{
+        font-size: 1rem;
+        color: var(--main-text-color);
+        border: 2px solid var(--main-text-color);
+        border-radius: 1rem;
+        padding: .3rem;
+        background: none;
     }
 
     @media screen and (max-width: 768px) {

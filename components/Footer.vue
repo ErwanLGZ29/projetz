@@ -11,7 +11,6 @@
 <style scoped>
     .footer-container {
         width: 98%;
-        height: auto;
         margin: auto;
         padding: 1%;
         display: flex;
