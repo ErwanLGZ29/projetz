@@ -7,7 +7,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const authStore = useAuthStore();
     const router = useRouter(); 
 
-    // Vérifiez l'état d'authentification côté serveur ou côté client
+    // Check if the user is authenticated
     await authStore.checkAuthentication();
 
     const isAuthenticated = authStore.isAuthenticated;
@@ -16,11 +16,11 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     if (['login', 'register'].includes(to.name as string) && isAuthenticated) {
         console.log('Redirecting to profile');
-        return navigateTo('/profile'); // Redirige vers le profil si connecté
+        return navigateTo('/profile');
     }
 
     if (to.name === 'profile' && !isAuthenticated) {
         console.log('Redirecting to login');
-        return navigateTo('/login'); // Redirige vers login si déconnecté
+        return navigateTo('/login');
     }
 });

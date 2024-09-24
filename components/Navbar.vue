@@ -5,7 +5,7 @@
             <NuxtLink to="/">L'histoire</NuxtLink>
             <NuxtLink to="/competitions">Les Compétitions</NuxtLink>
         </div>
-        <div class="login-container"  v-if="authStore">
+        <div class="navigation-user-container">
             <NuxtLink v-if="authStore.isAuthenticated" to="/profile" class="profile-link">
                 <img class="profile" src="/userprofile.png" alt="profile" />
                 <p>{{ authStore.user.username }}</p>
@@ -34,10 +34,10 @@ export default {
     },
     // Add event listener on window when component is mounted to change
     // navbar background color when scrolling down.
-    mounted() {
-        this.authStore.checkAuthentication();
-        window.addEventListener('scroll', this.handleScroll);
+     async mounted() {
+        await this.authStore.checkAuthentication();
         this.checkRoute(this.$route.name);
+        window.addEventListener('scroll', this.handleScroll);
     },
     beforeDestroy() {
         window.removeEventListener('scroll', this.handleScroll);
@@ -96,7 +96,7 @@ nav {
     }
 
     .navigation-container,
-    .login-container {
+    .navigation-user-container {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -150,7 +150,7 @@ nav {
     @media screen and (max-width: 768px) {
 
         .navigation-container,
-        .login-container {
+        .navigation-user-container {
             gap: 1rem;
         }
 

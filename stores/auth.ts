@@ -29,12 +29,9 @@ export const useAuthStore = defineStore('auth', {
         async login(email: string, password: string) {
             try {
                 const response = await authService.login(email, password);
-                if (process.client) { // Vérifiez si nous sommes en mode client
-                    localStorage.setItem("current_user_token", response.data.token);
-                    localStorage.setItem("current_user", JSON.stringify(response.data.user));
-                }
-                this.isAuthenticated = true; // Mettez à jour l'état ici
-                this.user = response.data.user; // Mettez à jour l'utilisateur
+                localStorage.setItem("current_user_token", response.data.token);
+                localStorage.setItem("current_user", JSON.stringify(response.data.user));
+                this.checkAuthentication();
             } catch (error: any) {
                 throw error.response?.data?.message || error;
             }
@@ -43,15 +40,14 @@ export const useAuthStore = defineStore('auth', {
             try {
                 const token = process.client ? localStorage.getItem('current_user_token') || 'null' : 'null';
                 const response = await authService.update(email, username, token);
-                if (process.client) {
-                    localStorage.setItem("current_user", JSON.stringify(response.data.user));
-                }
+                localStorage.setItem("current_user", JSON.stringify(response.data.user));
+                this.checkAuthentication();
             } catch (error: any) {
                 throw error.response?.data?.message || error;
             }
         },
         logout() {
-            if (process.client) { // Vérifiez si nous sommes en mode client
+            if (process.client) {
                 localStorage.removeItem("current_user_token");
                 localStorage.removeItem("current_user");
             }
@@ -59,11 +55,18 @@ export const useAuthStore = defineStore('auth', {
             this.user = null;
         },
         async checkAuthentication() {
-            // Vérifiez l'état d'authentification uniquement côté client
-            if (process.client) {
+            try {
                 this.isAuthenticated = !!localStorage.getItem('current_user_token');
                 this.user = JSON.parse(localStorage.getItem('current_user') || 'null');
-                console.log('Auth state checked:', this.isAuthenticated);
+            
+                const token = localStorage.getItem('current_user_token') || 'null';
+                if (this.isAuthenticated && token && this.user && this.user.email) {
+                    await authService.checkToken(this.user.email, token);
+                }else{
+                    this.logout();
+                }
+            } catch (error) {
+                this.logout();
             }
         }
     }
