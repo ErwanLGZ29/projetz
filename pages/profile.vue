@@ -45,7 +45,6 @@ export default {
             errorMessage.value = null;
             try {
                 // Call the update method from the auth service
-                console.log('ici', email.value, username.value);
                 await authStore.update(email.value, username.value);
                 errorMessage.value = null;
             } catch (error) {

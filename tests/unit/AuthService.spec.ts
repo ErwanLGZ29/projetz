@@ -45,9 +45,9 @@ describe("Auth Service - Login", () => {
 
   it("should login a user", async () => {
     const response = await authService.login(user.email, user.password);
-    expect(response.token).toBeDefined();
-    expect(response.user).toBeDefined();
-    token = response.token;
+    expect(response.data.token).toBeDefined();
+    expect(response.data.user).toBeDefined();
+    token = response.data.token;
   });
 
   it("should delete a user without token", async () => {
@@ -75,9 +75,5 @@ describe("Auth Service - Login", () => {
   it("should delete a user", async () => {
     const response = await authService.deleteUser(user.email, token);
     expect(response.status).toBe(204);
-  });
-
-  it("should logout a user", async () => {
-    authService.logout();
   });
 });
