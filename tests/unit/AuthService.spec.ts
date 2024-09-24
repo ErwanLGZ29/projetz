@@ -50,6 +50,27 @@ describe("Auth Service - Login", () => {
     token = response.data.token;
   });
 
+  it("should test an invalid token", async () => {
+    try {
+      await authService.checkToken(user.email, "invalidToken");
+    } catch (error) {
+      if (error instanceof Error && (error as any).response) {
+        const axiosError = error as any;
+        expect(axiosError.response.status).toBe(403);
+      }
+    }
+  });
+
+  it("should test a valid token", async () => {
+    const response = await authService.checkToken(user.email, token);
+    expect(response.status).toBe(204);
+  });
+
+  it("should update a user", async () => {
+    const response = await authService.update(user.email, user.username+"2", token);
+    expect(response.status).toBe(200);
+  });
+
   it("should delete a user without token", async () => {
     try {
         await authService.deleteUser(user.email, "");

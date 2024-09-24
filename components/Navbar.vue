@@ -5,7 +5,7 @@
             <NuxtLink to="/">L'histoire</NuxtLink>
             <NuxtLink to="/competitions">Les Compétitions</NuxtLink>
         </div>
-        <div class="login-container">
+        <div class="login-container"  v-if="authStore">
             <NuxtLink v-if="authStore.isAuthenticated" to="/profile" class="profile-link">
                 <img class="profile" src="/userprofile.png" alt="profile" />
                 <p>{{ authStore.user.username }}</p>

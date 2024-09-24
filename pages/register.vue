@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="create-container">
+        <div class="register-container">
             <h1>Créer un compte</h1>
             <div class="form-container">
                 <form @submit.prevent="register">
@@ -19,6 +19,11 @@
 </template>
 
 <script setup>
+definePageMeta({
+    title: 'Register Page',
+    name: 'register',
+    middleware: 'auth'
+});
 import { useAuthStore } from "~/stores/auth";
 
 const username = ref("");
@@ -44,7 +49,7 @@ const register = async () => {
 </script>
 
 <style lang="scss" scoped>
-.create-container {
+.register-container {
     width: 50%;
     height: auto;
     margin: 6rem auto;
@@ -52,7 +57,7 @@ const register = async () => {
 }
 
 @media screen and (max-width: 768px) {
-    .create-container {
+    .register-container {
         width: 80%;
     }
 }

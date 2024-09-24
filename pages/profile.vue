@@ -1,47 +1,45 @@
 <template>
-    <div class="container">
-        <div class="create-container">
-            <h1>Profile</h1>
-            <div class="form-container">
-                <img src="/userprofile.png" alt="profile" class="profile"/>
-                <form @submit.prevent="update">
-                    <label for="username"><strong>Email</strong></label>
-                    <input v-model="email" placeholder="Email" class="readonly" readonly />
-                    <label for="username"><strong>Username</strong></label>
-                    <input v-model="username" placeholder="Username" required />
-                    <!-- <label for="password">Mot de passe</label>
-                    <input v-model="password" placeholder="Mot de passe" type="password" /> -->
-                    <button type="submit">Modifier le Profile</button>
-                    <!-- error message -->
-                    <div class="error-message-container">
-                        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-                    </div>
-                </form>
+        <div class="container">
+            <div class="profile-container">
+                <h1>Profile</h1>
+                <div class="form-container">
+                    <img src="/userprofile.png" alt="profile" class="profile"/>
+                    <form @submit.prevent="update">
+                        <label for="username"><strong>Email</strong></label>
+                        <input v-model="email" placeholder="Email" class="readonly" readonly />
+                        <label for="username"><strong>Username</strong></label>
+                        <input v-model="username" placeholder="Username" required />
+                        <!-- <label for="password">Mot de passe</label>
+                        <input v-model="password" placeholder="Mot de passe" type="password" /> -->
+                        <button type="submit">Modifier le Profile</button>
+                        <!-- error message -->
+                        <div class="error-message-container">
+                            <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 </template>
 
-<script>
+<script setup>
+definePageMeta({
+    title: 'Profile Page',
+    name: 'profile',
+    middleware: 'auth'
+});
 import { useAuthStore } from '~/stores/auth';
 
-export default {
-    setup() {
-        const authStore = useAuthStore();
-        const email = ref("");
-        const username = ref("");
-        const errorMessage = ref('')
-        // const password = ref("");
+const authStore = useAuthStore();
+const email = ref("");
+const username = ref("");
+const errorMessage = ref('')
+// const password = ref("");
 
-        onMounted(() => {
-            if (authStore.user) {
-                email.value = authStore.user.email || "";
-                username.value = authStore.user.username || "";
-                // password.value = "";
-            }
-        });
+email.value = authStore.user.email || "";
+username.value = authStore.user.username || "";
 
-        const update = async () => {
+const update = async () => {
             errorMessage.value = null;
             try {
                 // Call the update method from the auth service
@@ -52,24 +50,10 @@ export default {
                 errorMessage.value = error;
             }
         };
-
-        return {
-            authStore,
-            email,
-            username,
-            errorMessage,
-            // password,
-            update
-        };
-    }
-}
-
-const update = async () => {
-};
 </script>
 
 <style lang="scss" scoped>
-.create-container {
+.profile-container {
     width: 50%;
     height: auto;
     margin: 6rem auto;
@@ -101,7 +85,7 @@ label {
 }
 
 @media screen and (max-width: 768px) {
-    .create-container {
+    .profile-container {
         width: 80%;
     }
 }
