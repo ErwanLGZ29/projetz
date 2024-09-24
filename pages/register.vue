@@ -4,7 +4,7 @@
             <h1>Créer un compte</h1>
             <div class="form-container">
                 <form @submit.prevent="register">
-                    <input v-model="username" placeholder="Username" required />
+                    <input v-model="username" placeholder="Username" type="text" required />
                     <input v-model="email" placeholder="Email" type="email" required />
                     <input v-model="password" placeholder="Mot de passe" type="password" required />
                     <button type="submit">S'inscrire</button>

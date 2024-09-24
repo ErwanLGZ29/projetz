@@ -46,6 +46,21 @@ export const useAuthStore = defineStore('auth', {
                 throw error.response?.data?.message || error;
             }
         },
+
+        async deleteUser(email: string) {
+            try {
+                const token = localStorage.getItem('current_user_token') || 'null';
+                console.log('delete user', token, email);
+                const response = await authService.deleteUser(email, token);
+                localStorage.removeItem("current_user");
+                localStorage.removeItem("current_user_token");
+                this.checkAuthentication();
+            } catch (error: any) {
+                throw error.response?.data?.message || error;
+            }
+        },
+
+
         logout() {
             if (process.client) {
                 localStorage.removeItem("current_user_token");

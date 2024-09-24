@@ -18,6 +18,7 @@
                         </div>
                     </form>
                 </div>
+                <button class="delete-button" @click="confirmDeleteAccount">Supprimer mon compte</button>
             </div>
         </div>
 </template>
@@ -50,6 +51,27 @@ const update = async () => {
                 errorMessage.value = error;
             }
         };
+
+const confirmDeleteAccount = () => {
+    if (confirm("Vous etes sûr de vouloir supprimer votre compte ?")) {
+        deleteUser();
+    }else{
+        // Do nothing
+    }
+}
+
+const deleteUser = async () => {
+    errorMessage.value = null;
+    try {
+        // Call the delete method from the auth service
+        await authStore.deleteUser(email.value);
+        errorMessage.value = null;
+        navigateTo('/');
+    } catch (error) {
+        // Display an error message
+        errorMessage.value = error;
+    }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -84,8 +106,32 @@ label {
     pointer-events: none;
 }
 
+.delete-button {
+    margin-top: 2rem;
+    width: 30%;
+    height: 3rem;
+    border-radius: 2rem;
+    background-color: red;
+    color: var(--main-text-color);
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1300px) {
+    .delete-button {
+        width: 50%;
+    }
+    
+}
+
 @media screen and (max-width: 768px) {
     .profile-container {
+        width: 80%;
+    }
+
+    .delete-button {
         width: 80%;
     }
 }
