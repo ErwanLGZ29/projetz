@@ -1,0 +1,80 @@
+name: CI Workflow
+
+# Event triggered on a push to main or dev
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # Explicitly define Node.js 20.x
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Install Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' 
+
+      # Cache node_modules
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
+
+      # Install dependencies for the front-end
+      - name: Install front-end dependencies
+        run: npm install
+        working-directory: ./ 
+
+      # Install dependencies for the back-end
+      - name: Install back-end dependencies
+        run: npm install
+        working-directory: ./server 
+
+      # Build the front-end with Vite
+      - name: Build front-end
+        run: npm run build
+        working-directory: ./ 
+
+      # Start the back-end server in the background
+      - name: Start back-end server
+        run: |
+          cd server
+          nohup node server.js & # Lancement du back-end en arrière-plan
+        env:
+          NODE_ENV: test
+
+      # Start the front-end server in the background
+      - name: Start front-end server
+        run: npm run dev &
+        env:
+          NODE_ENV: test
+        working-directory: ./ 
+
+      # Run unit tests
+      - name: Run Unit Tests
+        run: npm run test:unit
+
+      # Wait for the front-end and back-end to be ready
+      - name: Wait for services to be ready
+        run: |
+          sleep 10
+          npx wait-on http://localhost:3000 http://localhost:5000
+
+      # Run E2E Tests
+      - name: Run E2E Tests
+        run: npm run test:e2e
