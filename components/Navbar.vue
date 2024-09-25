@@ -2,81 +2,84 @@
     <nav :class="{ 'colored': isColored }">
         <div class="navigation-container">
             <a href="/"><img class="logo" src="/breakdance-picto.jpg" alt="logo" /></a>
-            <NuxtLink to="/">L'histoire</NuxtLink>
-            <NuxtLink to="/competitions">Les Compétitions</NuxtLink>
-            <NuxtLink to="/dancers">Les Danseurs</NuxtLink>
+            <!-- Hamburger menu button (only visible on mobile) -->
+            <button class="hamburger" @click="toggleMenu" v-if="isMobile">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </button>
+            <!-- Desktop Menu -->
+            <div class="nav-links" :class="{ 'open': isMenuOpen }">
+                <div class="navigation-links-container">
+                    <NuxtLink to="/">L'histoire</NuxtLink>
+                    <NuxtLink to="/competitions">Les Compétitions</NuxtLink>
+                    <NuxtLink to="/dancers">Les Danseurs</NuxtLink>
+                </div>
+                <div class="navigation-user-container">
+                    <NuxtLink v-if="authStore.isAuthenticated" to="/profile" class="profile-link">
+                        <img class="profile" src="/userprofile.png" alt="profile" />
+                        <p>{{ authStore.user.username }}</p>
+                    </NuxtLink>
+                    <NuxtLink v-if="!authStore.isAuthenticated" to="/login">Connexion</NuxtLink>
+                    <button class="logout" v-if="authStore.isAuthenticated" @click="logout">Déconnexion</button>
+                </div>
+            </div>
+           
         </div>
-        <div class="navigation-user-container">
-            <NuxtLink v-if="authStore.isAuthenticated" to="/profile" class="profile-link">
-                <img class="profile" src="/userprofile.png" alt="profile" />
-                <p>{{ authStore.user.username }}</p>
-            </NuxtLink>
-            <NuxtLink v-if="!authStore.isAuthenticated" to="/login">Connexion</NuxtLink>
-            <button class="logout" v-if="authStore.isAuthenticated" @click="logout">Déconnexion</button>
-        </div>
+       
     </nav>
 </template>
 
 <script>
 import { useAuthStore } from '~/stores/auth';
 
-// Navbar component change the background color when scrolling down
 export default {
     data() {
         return {
-            isColored: false
+            isColored: false,
+            isMenuOpen: false,  // Menu mobile déroulant
+            isMobile: false     // Détection mobile
         };
     },
     computed: {
-        // Use the authStore in the template
         authStore() {
             return useAuthStore();
         }
     },
-    // Add event listener on window when component is mounted to change
-    // navbar background color when scrolling down.
-     async mounted() {
-        await this.authStore.checkAuthentication();
-        this.checkRoute(this.$route.name);
+    mounted() {
+        this.checkWindowSize();
         window.addEventListener('scroll', this.handleScroll);
+        window.addEventListener('resize', this.checkWindowSize);
+        this.authStore.checkAuthentication();
     },
     beforeDestroy() {
         window.removeEventListener('scroll', this.handleScroll);
-    },
-    watch: {
-        $route($to, $from) {
-            this.checkRoute($to.name);
-        }
+        window.removeEventListener('resize', this.checkWindowSize);
     },
     methods: {
         handleScroll() {
             if (this.$route.name === 'index') {
-                if (window.scrollY > 50) {
-                    this.isColored = true;
-                } else {
-                    this.isColored = false;
-                }
+                this.isColored = window.scrollY > 50;
             } else {
                 this.isColored = true;
             }
         },
-
-        checkRoute(routeName) {
-            if (routeName === 'index') {
-                this.isColored = false;
-            } else {
-                this.isColored = true;
+        toggleMenu() {
+            this.isMenuOpen = !this.isMenuOpen;
+        },
+        checkWindowSize() {
+            this.isMobile = window.innerWidth <= 768;
+            if (!this.isMobile) {
+                this.isMenuOpen = false;
             }
         },
-
         logout() {
             this.authStore.logout();
-            navigateTo('/'); // Redirection après déconnexion
-        },
+            this.$router.push('/');
+        }
     }
 };
 </script>
-
 <style lang="scss" scoped>
 nav {
     width: 98%;
@@ -92,71 +95,123 @@ nav {
     transition: all 0.5s ease-out;
 
     &.colored {
-        background-image: -webkit-linear-gradient(to right, var(--main-color), var(--second-color));
         background-image: linear-gradient(to right, var(--main-color), var(--second-color));
     }
 
-    .navigation-container,
+    .navigation-container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+
+        .logo {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+        }
+
+        .hamburger {
+            display: none; /* Caché par défaut */
+
+            @media screen and (max-width: 768px) {
+                display: flex;
+                flex-direction: column;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 0.5rem;
+                
+                .line {
+                    width: 25px;
+                    height: 3px;
+                    background-color: var(--main-text-color);
+                    margin: 2px 0;
+                }
+            }
+        }
+
+        .nav-links {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+
+            .navigation-links-container {
+                display: flex;
+                gap: 2rem;
+
+            }
+            
+
+            a {
+                font-size: 1.5rem;
+                color: var(--main-text-color);
+                text-decoration: none;
+                text-shadow: 1px 1px 2px black;
+                transition: all 0.3s ease;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            @media screen and (max-width: 768px) {
+                display: none;  /* Masqué sur mobile par défaut */
+                position: absolute;
+                width: 60%;
+                top: 60px;
+                right: 10px;
+                flex-direction: column;
+                background-color: rgba(0, 0, 0, 0.8);
+                padding: 1rem;
+                border-radius: 8px;
+
+                .navigation-links-container {
+                    flex-direction: column;
+                    gap: 0.5rem;
+                }
+
+                &.open {
+                    display: flex;  /* Afficher quand isMenuOpen est true */
+                }
+
+                a {
+                    font-size: 1.2rem;
+                    padding: 0.5rem 0;
+                }
+            }
+        }
+    }
+
     .navigation-user-container {
         display: flex;
-        justify-content: center;
         align-items: center;
-        gap: 2rem;
-    }
+        gap: 1rem;
 
-    .logo {
-        width: 3rem;
-        height: 3rem;
-        border-radius: 5rem;
-    }
+        .profile-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
 
-    a {
-        font-size: 1.5rem;
-        color: var(--main-text-color);
-        text-decoration: none;
-        text-shadow: 1px 1px 2px black;
-        border: none;
-        background: none;
-        cursor: pointer;
+            .profile {
+                width: 2rem;
+                height: 2rem;
+            }
 
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-
-    .profile-link {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-
-        .profile {
-            width: 2rem;
-            height: 2rem;
+            p {
+                margin: 0;
+            }
         }
 
-        p {
-            margin: 0;
-        }
-    }
-
-    .logout {
-        font-size: 1rem;
-        color: var(--main-text-color);
-        border: 2px solid var(--main-text-color);
-        border-radius: 1rem;
-        padding: 0.3rem;
-        background: none;
-    }
-
-    @media screen and (max-width: 768px) {
-
-        .navigation-container,
-        .navigation-user-container {
-            gap: 1rem;
-        }
-
-        a {
+        .logout {
             font-size: 1rem;
+            color: var(--main-text-color);
+            border: 2px solid var(--main-text-color);
+            border-radius: 1rem;
+            padding: 0.3rem;
+            background: none;
         }
     }
 }
