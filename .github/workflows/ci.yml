@@ -60,7 +60,9 @@ jobs:
 
       # Start the front-end server in the background
       - name: Start front-end server
-        run: nohup npm run dev &
+        run: | 
+            nohup npm run dev &
+            sleep 10
         env:
           NODE_ENV: test
         working-directory: ./ 
