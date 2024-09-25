@@ -43,10 +43,8 @@ defineProps({
 
         img {
             width: 100%;
-            height: auto;
-            margin: auto;
+            height: 100%;
             object-fit: cover;
-            float: left;
             transition: 0.5s ease-in-out;
             transform: scale(1);
 
@@ -72,6 +70,18 @@ defineProps({
                 color: var(--main-color);
             }
         }
+    }
+
+    @media screen and (max-width: 768px) {
+
+        .card-image-container {
+            height: 50%;
+        }
+
+        .card-informations {
+            height: 50%;
+        }
+        
     }
 }
 </style>
