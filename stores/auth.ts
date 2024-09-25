@@ -47,6 +47,17 @@ export const useAuthStore = defineStore('auth', {
             }
         },
 
+        async getDancersList(email: string) {
+            try {
+                const token = process.client ? localStorage.getItem('current_user_token') || 'null' : 'null';
+                const response = await authService.getDancersList(email, token);
+                console.log('ici', response.data);
+                return response.data.dancers;
+            } catch (error: any) {
+                throw error.response?.data?.message || error;
+            }
+        },
+
         async deleteUser(email: string) {
             try {
                 const token = localStorage.getItem('current_user_token') || 'null';

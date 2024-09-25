@@ -18,6 +18,12 @@ const readUsersFromFile = () => {
   return JSON.parse(data);
 };
 
+const readDancersFromFile = () => {
+  const data = fs.readFileSync("storage/dancers.json", "utf8");
+  return JSON.parse(data);
+};
+
+
 //Write users from file on server storage
 const writeUsersToFile = (users) => {
   fs.writeFileSync("storage/users.json", JSON.stringify(users, null, 2));
@@ -91,6 +97,16 @@ app.get("/api/user", (req, res) => {
   const token = req.headers["authorization"];
   authenticate(res, email, token, () => {
     res.sendStatus(204);
+  });
+});
+
+// Get dancers list
+app.get("/api/dancers", (req, res) => {
+  const { email } = req.query;
+  const token = req.headers["authorization"];
+  authenticate(res, email, token, () => {
+    let dancers = readDancersFromFile();
+    res.status(200).json({ dancers });
   });
 });
 
