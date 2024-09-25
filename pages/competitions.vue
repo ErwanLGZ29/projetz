@@ -37,35 +37,26 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
 .competition-container {
   width: 80%;
   height: auto;
   margin: 6rem auto;
-}
-
-.competition-cards {
-  width: 100%;
-  height: auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 2rem;
-}
-
-@media screen and (max-width: 1300px) {
-  h1 {
-    font-size: 5rem;
-  }
 
   .competition-cards {
-    grid-template-columns: 1fr 1fr;
-  }
-}
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
 
-@media screen and (max-width: 768px) {
-  .competition-cards {
-    grid-template-columns: 1fr;
+    @media screen and (max-width: 1300px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media screen and (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
   }
 }
 </style>

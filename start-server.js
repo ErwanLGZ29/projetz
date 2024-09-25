@@ -1,11 +1,11 @@
 const { exec } = require('child_process');
 const waitOn = require('wait-on');
 
-// Démarrez le serveur
-const serverProcess = exec('npm run dev'); // Remplacez par votre commande
+// Start the server
+const serverProcess = exec('npm run dev');
 
-// Attendez que le serveur soit opérationnel
-waitOn({ resources: ['http://localhost:3000'], timeout: 30000 }) // Modifiez le port si nécessaire
+// Wait for the server to start
+waitOn({ resources: ['http://localhost:3000'], timeout: 30000 }) 
   .then(() => {
     console.log('Server is ready');
   })
@@ -14,7 +14,7 @@ waitOn({ resources: ['http://localhost:3000'], timeout: 30000 }) // Modifiez le 
     process.exit(1);
   });
 
-// Écoutez les erreurs du processus serveur
+// Handle server errors
 serverProcess.stderr.on('data', (data) => {
   console.error(`Server error: ${data}`);
 });

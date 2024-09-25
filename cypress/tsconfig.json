@@ -8,7 +8,7 @@
     "types": ["cypress"]
   },
   "include": [
-    "**/*.ts"  // Inclus tous les fichiers .ts
+    "**/*.ts"
   ],
   "exclude": [
     "../.nuxt",

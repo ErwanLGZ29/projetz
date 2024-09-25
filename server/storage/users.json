@@ -1,27 +1,17 @@
 [
   {
-    "username": "usertest",
-    "email": "usertest@mail.com",
+    "username": "USERTEST",
+    "email": "testuser@example.com",
     "password": "password123"
   },
   {
-    "username": "ErwanLz",
     "email": "erwan@mail.com",
-    "password": "password"
-  },
-  {
-    "username": "test",
-    "email": "test@mail.com",
-    "password": "passpass"
-  },
-  {
     "username": "ErwanLGZ",
-    "email": "dzadzad@mail.com",
-    "password": "sdsqdqsd"
+    "password": "password123"
   },
   {
-    "username": "sssdsds",
-    "email": "sdsdsds@mail.com",
+    "email": "Enrique@mail.com",
+    "username": "Enrique",
     "password": "dslqdfkqsldjkqsmldk"
   }
 ]

@@ -58,24 +58,26 @@ app.post("/api/login", (req, res) => {
 
 // Update a user
 app.put("/api/user", (req, res) => {
-  authenticate(req, res, () => {
-    const { email } = req.params;
-    const { username, password } = req.body;
+  const { email , username} = req.body;
+  const token = req.headers["authorization"];
+  authenticate(res, email, token, () => {
     let users = readUsersFromFile();
     const userIndex = users.findIndex((user) => user.email === email);
     if (userIndex === -1) {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
-    users[userIndex] = { email, username, password };
+    users[userIndex] = { email: users[userIndex].email, username, password: users[userIndex].password };
     writeUsersToFile(users);
-    res.sendStatus(204);
+    let user = users[userIndex];
+    res.status(200).json({ token, user });
   });
 });
 
 // Delete a user
 app.delete("/api/user", (req, res) => {
-  authenticate(req, res, () => {
-    const { email } = req.query;
+  const { email } = req.query;
+  const token = req.headers["authorization"];
+  authenticate(res, email, token, () => {
     let users = readUsersFromFile();
     users = users.filter((user) => user.email !== email);
     writeUsersToFile(users);
@@ -83,10 +85,17 @@ app.delete("/api/user", (req, res) => {
   });
 });
 
-// Middleware d'authentification
-const authenticate = (req, res, next) => {
-  const token = req.headers["authorization"];
+// Check if token is valid
+app.get("/api/user", (req, res) => {
   const { email } = req.query;
+  const token = req.headers["authorization"];
+  authenticate(res, email, token, () => {
+    res.sendStatus(204);
+  });
+});
+
+// Middleware d'authentification
+const authenticate = (res, email, token, next) => {
   if (!token) return res.sendStatus(403);
   //remove "Bearer " from token
   jwt.verify(token.replace("Bearer ", ""), SECRET_KEY, (err, decoded) => {
