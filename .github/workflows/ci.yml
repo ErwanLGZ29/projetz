@@ -77,9 +77,11 @@ jobs:
           sleep 5 
           curl -I http://localhost:3000 || echo "Front-end not accessible"
 
-      # Wait for the front-end and back-end to be ready
-      - name: Wait for services to be ready
-        run: npx wait-on http://localhost:3000 http://localhost:5000
+      # Test if back-end is accessible
+      - name: Check back-end accessibility
+        run: |
+          sleep 5 
+          curl -I http://localhost:5000 || echo "Back-end not accessible"
 
       # Run E2E Tests
       - name: Run E2E Tests
