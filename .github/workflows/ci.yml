@@ -54,13 +54,13 @@ jobs:
       - name: Start back-end server
         run: |
           cd server
-          nohup node server.js & # Lancement du back-end en arrière-plan
+          nohup node server.js &
         env:
           NODE_ENV: test
 
       # Start the front-end server in the background
       - name: Start front-end server
-        run: npm run dev &
+        run: nohup npm run dev &
         env:
           NODE_ENV: test
         working-directory: ./ 
