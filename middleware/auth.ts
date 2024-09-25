@@ -19,7 +19,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         return navigateTo('/profile');
     }
 
-    if (to.name === 'profile' && !isAuthenticated) {
+    if (['profile', 'dancers'].includes(to.name as string) && !isAuthenticated) {
         console.log('Redirecting to login');
         return navigateTo('/login');
     }

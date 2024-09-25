@@ -4,6 +4,7 @@
             <a href="/"><img class="logo" src="/breakdance-picto.jpg" alt="logo" /></a>
             <NuxtLink to="/">L'histoire</NuxtLink>
             <NuxtLink to="/competitions">Les Compétitions</NuxtLink>
+            <NuxtLink to="/dancers">Les Danseurs</NuxtLink>
         </div>
         <div class="navigation-user-container">
             <NuxtLink v-if="authStore.isAuthenticated" to="/profile" class="profile-link">

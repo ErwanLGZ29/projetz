@@ -8,6 +8,7 @@ export const authService = {
   update,
   deleteUser,
   checkToken,
+  getDancersList
 };
 
 function register(
@@ -30,6 +31,11 @@ function update(email: string, username: string, token: string): Promise<AxiosRe
 function deleteUser(email: string, token: string): Promise<AxiosResponse> {
   if (!token) { return Promise.reject("No token found"); }
   return axios.delete(`${API_URL}/user`, { params: { email }, headers: { Authorization: `Bearer ${token}`, }, });
+}
+
+function getDancersList(email: string, token: string): Promise<AxiosResponse> {
+  if (!token) { return Promise.reject("No token found"); }
+  return axios.get(`${API_URL}/dancers`, { params: { email }, headers: { Authorization: `Bearer ${token}`, }, });
 }
 
 function checkToken(email: string, token: string): Promise<AxiosResponse> {
