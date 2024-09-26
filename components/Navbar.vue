@@ -37,8 +37,8 @@ export default {
     data() {
         return {
             isColored: false,
-            isMenuOpen: false,  // Menu mobile déroulant
-            isMobile: false     // Détection mobile
+            isMenuOpen: false,  
+            isMobile: false
         };
     },
     computed: {
@@ -55,6 +55,16 @@ export default {
     beforeDestroy() {
         window.removeEventListener('scroll', this.handleScroll);
         window.removeEventListener('resize', this.checkWindowSize);
+    },
+    watch: {
+        $route($to, $from) {
+            console.log('ici', $to, $from);
+            if($to.name === 'index') {
+                this.isColored = false;
+            }else {
+                this.isColored = true;
+            }
+        }
     },
     methods: {
         handleScroll() {
