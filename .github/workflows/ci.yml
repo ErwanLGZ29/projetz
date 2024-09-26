@@ -103,7 +103,7 @@ jobs:
         working-directory: ./ 
 
 
-  # Start back-end and front-end servers
+  # Start back-end, front-end servers and Run tests
   start-servers:
     runs-on: ubuntu-latest
     needs: build
@@ -145,53 +145,22 @@ jobs:
           NODE_ENV: test
         working-directory: ./
 
-
-  # Test if servers are accessible and Run tests
-  tests:
-    runs-on: ubuntu-latest
-    needs: start-servers
-
-    steps:
-      # Checkout of the repository
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      # Node.js installation
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-
-      # Restore node_modules cache
-      - name: Restore npm cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node_modules-
-
-      # Build the front-end
-      - name: Build front-end
-        run: npm run build
-        working-directory: ./
-
-         # Execute unit tests
-      - name: Run Unit Tests
-        run: npm run test:unit
-      
-      # Test if front-end is accessible
+        # Test if front-end is accessible
       - name: Check front-end accessibility
         run: |
           sleep 5 
           curl -I http://localhost:3000 || echo "Front-end not accessible"
 
-      # Test if back-end is accessible
+        # Test if back-end is accessible
       - name: Check back-end accessibility
         run: |
           sleep 5 
           curl -I http://localhost:5000 || echo "Back-end not accessible"
 
-      # Execute E2E tests
+        # Execute unit tests
+      - name: Run Unit Tests
+        run: npm run test:unit
+
+        # Execute E2E tests
       - name: Run E2E Tests
         run: npm run test:e2e
