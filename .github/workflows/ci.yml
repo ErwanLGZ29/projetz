@@ -1,6 +1,5 @@
 name: CI Workflow
 
-# Event triggered on a push to main or dev
 on:
   push:
     branches:
@@ -8,26 +7,28 @@ on:
       - dev
 
 jobs:
-  build:
+
+  # Initial configuration setup
+  setup:
     runs-on: ubuntu-latest
 
-    # Explicitly define Node.js 20.x
     strategy:
       matrix:
         node-version: [20.x]
 
     steps:
+      # Checkout of the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Install Node.js
+      # Node.js installation
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20' 
+          node-version: ${{ matrix.node-version }}
 
-      # Cache node_modules
-      - name: Cache node modules
+      # Restore npm cache
+      - name: Restore npm cache
         uses: actions/cache@v3
         with:
           path: node_modules
@@ -35,22 +36,98 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node_modules-
 
-      # Install dependencies for the front-end
+
+  # Install front-end and back-end dependencies
+  install-dependencies:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      # Checkout of the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Node.js installation
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Restore node_modules cache
+      - name: Restore npm cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
+
+      # Install front-end dependencies
       - name: Install front-end dependencies
         run: npm install
-        working-directory: ./ 
+        working-directory: ./
 
-      # Install dependencies for the back-end
+      # Install back-end dependencies
       - name: Install back-end dependencies
         run: npm install
-        working-directory: ./server 
+        working-directory: ./server
+
+
+  #Build the project
+  build:
+    runs-on: ubuntu-latest
+    needs: install-dependencies
+
+    steps:
+      # Checkout of the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Node.js installation
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Restore node_modules cache
+      - name: Restore npm cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
 
       # Build the front-end with Vite
       - name: Build front-end
         run: npm run build
         working-directory: ./ 
 
-      # Start the back-end server in the background
+
+  # Start back-end and front-end servers
+  start-servers:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      # Checkout of the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Node.js installation
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Restore node_modules cache
+      - name: Restore npm cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
+
+       # Start the back-end server in the background
       - name: Start back-end server
         run: |
           cd server
@@ -60,16 +137,36 @@ jobs:
 
       # Start the front-end server in the background
       - name: Start front-end server
-        run: | 
-            nohup npm run dev -- --host 0.0.0.0 &
-            sleep 10
+        run: |
+          nohup npm run dev -- --host 0.0.0.0 &
+          sleep 10
         env:
           NODE_ENV: test
-        working-directory: ./ 
+        working-directory: ./
 
-      # Run unit tests
-      - name: Run Unit Tests
-        run: npm run test:unit
+  # Test if servers are accessible
+  test-servers:
+    runs-on: ubuntu-latest
+    needs: start-servers
+    steps:
+     # Checkout of the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Node.js installation
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Restore node_modules cache
+      - name: Restore npm cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
 
       # Test if front-end is accessible
       - name: Check front-end accessibility
@@ -83,6 +180,35 @@ jobs:
           sleep 5 
           curl -I http://localhost:5000 || echo "Back-end not accessible"
 
-      # Run E2E Tests
+  # Run tests
+  tests:
+    runs-on: ubuntu-latest
+    needs: test-servers
+
+    steps:
+      # Checkout of the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Node.js installation
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Restore node_modules cache
+      - name: Restore npm cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
+
+      # Execute unit tests
+      - name: Run Unit Tests
+        run: npm run test:unit
+
+      # Execute E2E tests
       - name: Run E2E Tests
         run: npm run test:e2e
