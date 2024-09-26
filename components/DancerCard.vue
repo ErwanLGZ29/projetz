@@ -72,6 +72,18 @@ defineProps({
         }
     }
 
+    @media screen and (max-width: 1300px) {
+
+        .card-image-container { 
+            height: 60%;
+        }
+
+        .card-informations {    
+            height: 40%;
+        }
+        
+    }
+
     @media screen and (max-width: 768px) {
 
         .card-image-container {
