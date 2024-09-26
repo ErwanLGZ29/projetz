@@ -209,6 +209,22 @@ jobs:
       - name: Build front-end
         run: npm run build
         working-directory: ./
+      
+      # Wait for back-end to be ready
+      - name: Wait for back-end to be ready
+        run: |
+          until curl -s http://localhost:5000 > /dev/null; do
+          echo "Waiting for back-end...";
+          sleep 5;
+          done
+
+      # Wait for front-end to be ready
+      - name: Wait for front-end to be ready
+        run: |
+            until curl -s http://localhost:3000 > /dev/null; do
+            echo "Waiting for front-end...";
+            sleep 5;
+            done
 
       # Execute unit tests
       - name: Run Unit Tests
