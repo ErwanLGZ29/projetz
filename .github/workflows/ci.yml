@@ -35,6 +35,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node_modules-
 
+      # Cache Cypress binary
+      - name: Cache Cypress
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('package.json') }}-${{ hashFiles('cypress.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
+
       # Install dependencies for the front-end
       - name: Install front-end dependencies
         run: npm install
@@ -66,6 +75,10 @@ jobs:
         env:
           NODE_ENV: test
         working-directory: ./ 
+
+      # Install Cypress if it's not already installed
+      - name: Install Cypress
+        run: npx cypress install
 
       # Run unit tests
       - name: Run Unit Tests
