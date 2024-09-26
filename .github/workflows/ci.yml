@@ -24,7 +24,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20' 
+          node-version: '20'
+        
+      # Set up environment variables
+      - name: Set up environment variables
+        run: |
+          echo "VITE_WS_PORT=3000" >> $GITHUB_ENV
+          echo "NUXT_ENV_WS_PORT=3000" >> $GITHUB_ENV
+        env:
+          NODE_ENV: test
 
       # Cache node_modules
       - name: Cache node modules
