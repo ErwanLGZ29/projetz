@@ -155,26 +155,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Node.js installation
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-
-      # Restore node_modules cache
-      - name: Restore npm cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node_modules-
-
-      # Build the front-end
-      - name: Build front-end
-        run: npm run build
-        working-directory: ./
-      
       # Test if front-end is accessible
       - name: Check front-end accessibility
         run: |
