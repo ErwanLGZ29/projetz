@@ -205,6 +205,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node_modules-
 
+      # Build the front-end
+      - name: Build front-end
+        run: npm run build
+        working-directory: ./
+
       # Execute unit tests
       - name: Run Unit Tests
         run: npm run test:unit
