@@ -9,6 +9,15 @@
 <script setup>
 import Navbar from "~/components/Navbar.vue";
 import Footer from "~/components/Footer.vue";
+import { useHead } from '#app'
+
+useHead({
+  title: 'ProjetZ',
+  meta: [
+    { name: 'description', content: 'ProjetZ description' }
+  ],
+})
+
 </script>
 
 <style lang="scss">
