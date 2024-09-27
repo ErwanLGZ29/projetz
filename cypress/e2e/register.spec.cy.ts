@@ -45,6 +45,7 @@ describe('Register Page', () => {
         cy.get('input[placeholder="Mot de passe"]').type('password123');
         
         cy.get('button[type="submit"]').click();
+        cy.wait(2000);
 
         cy.get('.error-message').should('contain', 'Cet email est déjà utilisé');
     });
