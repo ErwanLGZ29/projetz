@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-const API_URL = "http://localhost:5000/api"; // API URL for development
+const API_URL = process.env.SERVER_API_URL || "http://localhost:5000/api";
 
 export const authService = {
   register,
