@@ -110,6 +110,10 @@ app.get("/api/dancers", (req, res) => {
   });
 });
 
+app.get("/api/test", (req, res) => {
+  res.sendStatus(200).json({ message: "Test OK" });
+});
+
 // Middleware d'authentification
 const authenticate = (res, email, token, next) => {
   if (!token) return res.sendStatus(403);
