@@ -46,4 +46,3 @@ To run the E2E tests with cypress, the development server must be started
 # npm
 npm run test:e2e
 ```
-
