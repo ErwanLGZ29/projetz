@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-let API_URL = "";
+let API_URL = 'http://localhost:5000/api'; //Default value for unit tests
 
 export const authService = {
   setApiUrl,

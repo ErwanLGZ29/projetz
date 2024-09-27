@@ -16,7 +16,7 @@ import { useAuthStore } from '~/stores/auth';
 
 const authStore = useAuthStore();
 
-// Simuler la récupération de danseurs côté serveur
+// Get dancers list from API
 async function fetchDancers() {
     try {
         if(authStore.isAuthenticated) {
@@ -32,10 +32,10 @@ async function fetchDancers() {
     }
 }
 
-// Initialiser la liste des danseurs
+// Init dancers list
 const dancers = ref([]);
 
-// Récupérer les danseurs lors du rendu côté serveur ou client
+// Get dancers list from API
 onBeforeMount(async () => {
   dancers.value = await fetchDancers();
 });

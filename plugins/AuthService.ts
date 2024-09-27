@@ -4,6 +4,6 @@ import { authService } from './../services/authService'
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
 
-  // Injecter le authService avec l'API_URL configurée
+  // Inject AuthService with API URL
   authService.setApiUrl(config.public.API_URL)
 })
