@@ -4,29 +4,38 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
+const path = require('path');
 
 const app = express();
 const PORT = 5000;
 const SECRET_KEY = "your_secret_key"; // Change this in production
 
-app.use(cors());
+const corsOptions = {
+  origin: ["https://projetz.vercel.app/", "http://localhost:3000"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
+
+const usersFilePath = path.join(__dirname, 'storage', 'users.json');
+const dancersFilePath = path.join(__dirname, 'storage', 'dancers.json');
 
 //Read users from file on server storage
 const readUsersFromFile = () => {
-  const data = fs.readFileSync("storage/users.json", "utf8");
+  const data = fs.readFileSync(usersFilePath, "utf8");
   return JSON.parse(data);
 };
 
 const readDancersFromFile = () => {
-  const data = fs.readFileSync("storage/dancers.json", "utf8");
+  const data = fs.readFileSync(dancersFilePath, "utf8");
   return JSON.parse(data);
 };
 
 
 //Write users from file on server storage
 const writeUsersToFile = (users) => {
-  fs.writeFileSync("storage/users.json", JSON.stringify(users, null, 2));
+  fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
 };
 
 // Register a new user
@@ -125,13 +134,6 @@ const authenticate = (res, email, token, next) => {
     next();
   });
 };
-
-const corsOptions = {
-  origin: ["https://projetz.vercel.app/", "http://localhost:3000"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
-app.use(cors(corsOptions));
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

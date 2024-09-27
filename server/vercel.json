@@ -10,11 +10,5 @@
       "src": "/(.*)",
       "dest": "server.js"
     }
-  ],
-  "files": [
-    {
-      "src": "storage/*",
-      "use": "@vercel/static"
-    }
   ]
 }
