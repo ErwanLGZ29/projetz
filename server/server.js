@@ -10,11 +10,7 @@ const app = express();
 const PORT = 5000;
 const SECRET_KEY = "your_secret_key"; // Change this in production
 
-const corsOptions = {
-  origin: ["https://projetz.vercel.app/", "http://localhost:3000"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
+app.use(cors());
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
