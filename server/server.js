@@ -4,14 +4,13 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
-const path = require('path');
+const path = require("path");
 
 const app = express();
 const PORT = 5000;
 const SECRET_KEY = "your_secret_key"; // Change this in production
 
 app.use(cors());
-app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 const usersFilePath = path.join(__dirname, 'storage', 'users.json');
