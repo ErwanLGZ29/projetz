@@ -16,6 +16,11 @@ export default defineNuxtConfig({
   },
   modules: ["@pinia/nuxt"],
   ssr: true,
+  runtimeConfig: {
+    public: {
+      API_URL: process.env.API_URL || 'http://localhost:5000/api', // Valeur par défaut si non définie dans .env
+    }
+  },
   vite: {
     server: {
       watch: {

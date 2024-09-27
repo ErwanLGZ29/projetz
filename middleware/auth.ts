@@ -12,15 +12,11 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     const isAuthenticated = authStore.isAuthenticated;
 
-    console.log(`Middleware called: ${to}, Authenticated: ${isAuthenticated}`);
-
     if (['login', 'register'].includes(to.name as string) && isAuthenticated) {
-        console.log('Redirecting to profile');
         return navigateTo('/profile');
     }
 
     if (['profile', 'dancers'].includes(to.name as string) && !isAuthenticated) {
-        console.log('Redirecting to login');
         return navigateTo('/login');
     }
 });

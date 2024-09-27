@@ -126,6 +126,13 @@ const authenticate = (res, email, token, next) => {
   });
 };
 
+const corsOptions = {
+  origin: ["https://projetz.vercel.app/", "http://localhost:3000"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+app.use(cors(corsOptions));
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

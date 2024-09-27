@@ -51,7 +51,6 @@ export const useAuthStore = defineStore('auth', {
             try {
                 const token = process.client ? localStorage.getItem('current_user_token') || 'null' : 'null';
                 const response = await authService.getDancersList(email, token);
-                console.log('ici', response.data);
                 return response.data.dancers;
             } catch (error: any) {
                 throw error.response?.data?.message || error;
@@ -61,7 +60,6 @@ export const useAuthStore = defineStore('auth', {
         async deleteUser(email: string) {
             try {
                 const token = localStorage.getItem('current_user_token') || 'null';
-                console.log('delete user', token, email);
                 const response = await authService.deleteUser(email, token);
                 localStorage.removeItem("current_user");
                 localStorage.removeItem("current_user_token");

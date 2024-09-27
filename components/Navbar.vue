@@ -58,7 +58,6 @@ export default {
     },
     watch: {
         $route($to, $from) {
-            console.log('ici', $to, $from);
             if($to.name === 'index') {
                 this.isColored = false;
             }else {

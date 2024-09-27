@@ -1,8 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 
-const API_URL = process.env.SERVER_API_URL || "http://localhost:5000/api";
+let API_URL = "";
 
 export const authService = {
+  setApiUrl,
   register,
   login,
   update,
@@ -10,6 +11,10 @@ export const authService = {
   checkToken,
   getDancersList
 };
+
+function setApiUrl(url: string) {
+  API_URL = url;
+}
 
 function register(
   username: string,

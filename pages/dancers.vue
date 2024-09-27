@@ -38,7 +38,6 @@ const dancers = ref([]);
 // Récupérer les danseurs lors du rendu côté serveur ou client
 onBeforeMount(async () => {
   dancers.value = await fetchDancers();
-  console.log('ici', dancers.value);
 });
 
 definePageMeta({
