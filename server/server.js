@@ -14,9 +14,11 @@ const SECRET_KEY = "your_secret_key"; // Change this in production
 app.use(cors());
 app.use(bodyParser.json());
 
+let edgeConfig;
 if(process.env.NODE_ENV === "production"){
-  const edgeConfig = createEdgeConfig();
+  edgeConfig = createEdgeConfig();
 }
+
 
 const usersFilePath = path.join(__dirname, 'storage', 'users.json');
 const dancersFilePath = path.join(__dirname, 'storage', 'dancers.json');
