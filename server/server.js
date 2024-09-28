@@ -16,10 +16,29 @@ app.use(bodyParser.json());
 const usersFilePath = path.join(__dirname, 'storage', 'users.json');
 const dancersFilePath = path.join(__dirname, 'storage', 'dancers.json');
 
+function getUsersList() {
+  if (process.env.NODE_ENV === "production") {
+    return usersList;
+  }else{
+    return readUsersFromFile();
+  }
+}
 //Read users from file on server storage
 const readUsersFromFile = () => {
   const data = fs.readFileSync(usersFilePath, "utf8");
   return JSON.parse(data);
+};
+
+let usersList = readUsersFromFile();
+
+//Write users from file on server storage
+const writeUsersToFile = (users) => {
+  //if production, write on storage
+  if (process.env.NODE_ENV === "production") {
+    usersList = users;
+  }else{
+    fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
+  }
 };
 
 const readDancersFromFile = () => {
@@ -28,16 +47,13 @@ const readDancersFromFile = () => {
 };
 
 
-//Write users from file on server storage
-const writeUsersToFile = (users) => {
-  fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
-};
+
 
 // Register a new user
 app.post("/api/register", (req, res) => {
   const { username, email, password } = req.body;
 
-  let users = readUsersFromFile();
+  let users = getUsersList();
   const existingUser = users.find((user) => user.email === email);
   if (existingUser) {
     return res.status(400).json({ message: "Cet email est déjà utilisé" });
@@ -54,7 +70,7 @@ app.post("/api/register", (req, res) => {
 app.post("/api/login", (req, res) => {
   const { email, password } = req.body;
 
-  let users = readUsersFromFile();
+  let users = getUsersList();
   const user = users.find((user) => user.email === email);
   if (!user || user.password !== password) {
     return res.status(401).json({ message: "Email ou mot de passe incorrect" });
@@ -71,7 +87,7 @@ app.put("/api/user", (req, res) => {
   const { email , username} = req.body;
   const token = req.headers["authorization"];
   authenticate(res, email, token, () => {
-    let users = readUsersFromFile();
+    let users = getUsersList();
     const userIndex = users.findIndex((user) => user.email === email);
     if (userIndex === -1) {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
@@ -88,7 +104,7 @@ app.delete("/api/user", (req, res) => {
   const { email } = req.query;
   const token = req.headers["authorization"];
   authenticate(res, email, token, () => {
-    let users = readUsersFromFile();
+    let users = getUsersList();
     users = users.filter((user) => user.email !== email);
     writeUsersToFile(users);
     res.sendStatus(204);
