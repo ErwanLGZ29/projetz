@@ -5,7 +5,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
-const createEdgeConfig = require("@vercel/edge-config");
+import { get, set } from '@vercel/edge-config';
 
 const app = express();
 const PORT = 5000;
@@ -14,18 +14,13 @@ const SECRET_KEY = "your_secret_key"; // Change this in production
 app.use(cors());
 app.use(bodyParser.json());
 
-let edgeConfig;
-if(process.env.NODE_ENV === "production"){
-  edgeConfig = createEdgeConfig();
-}
-
 
 const usersFilePath = path.join(__dirname, 'storage', 'users.json');
 const dancersFilePath = path.join(__dirname, 'storage', 'dancers.json');
 
 async function getUsersList() {
   if(process.env.NODE_ENV === "production") {
-    return existingUsers = await edgeConfig.get('users') || [];
+    return existingUsers = await get('users') || [];
   }else{
     return readUsersFromFile();
   }
@@ -41,7 +36,7 @@ const readUsersFromFile = () => {
 const writeUsersToFile = async (users) => {
   //if production, write on storage
   if (process.env.NODE_ENV === "production") {
-    await edgeConfig.set('users', users);
+    await set('users', users);
   }else{
     fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
   }
