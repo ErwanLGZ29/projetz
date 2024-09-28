@@ -32,8 +32,8 @@
 
 <script>
 import { useAuthStore } from '~/stores/auth';
-import { useToast } from 'vue-toastification';
-
+import Toast from 'vue-toastification';
+const {useToast} = Toast;
 const showLogoutToast = () => {
     useToast().info("Déconnexion reussie !");
 };

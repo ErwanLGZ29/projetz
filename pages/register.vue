@@ -25,7 +25,8 @@ definePageMeta({
     middleware: 'auth'
 });
 import { useAuthStore } from "~/stores/auth";
-import { useToast } from 'vue-toastification';
+import Toast from 'vue-toastification';
+const {useToast} = Toast;
 
 const username = ref("");
 const email = ref("");
