@@ -24,16 +24,17 @@ definePageMeta({
     name: 'login',
     middleware: 'auth'
 });
-import { useAuthStore } from '~/stores/auth'
-import Toast from 'vue-toastification';
-const {useToast} = Toast;
+import { useAuthStore } from '~/stores/auth';
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
 
 const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
 const authStore = useAuthStore();
 const showLoginToast = () => {
-    useToast().success("Connexion reussie !");
+    toast.success("Connexion reussie !");
 };
 
 const login = async () => {

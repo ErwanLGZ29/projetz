@@ -25,8 +25,9 @@ definePageMeta({
     middleware: 'auth'
 });
 import { useAuthStore } from "~/stores/auth";
-import Toast from 'vue-toastification';
-const {useToast} = Toast;
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
 
 const username = ref("");
 const email = ref("");
@@ -35,7 +36,7 @@ const errorMessage = ref("");
 const authStore = useAuthStore();
 
 const showRegisterToast = () => {
-    useToast().success("Inscription reussie !");
+    toast.success("Inscription reussie !");
 };
 
 const register = async () => {

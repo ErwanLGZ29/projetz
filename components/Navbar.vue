@@ -32,10 +32,11 @@
 
 <script>
 import { useAuthStore } from '~/stores/auth';
-import Toast from 'vue-toastification';
-const {useToast} = Toast;
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
 const showLogoutToast = () => {
-    useToast().info("Déconnexion reussie !");
+    toast.info("Déconnexion reussie !");
 };
 
 export default {
