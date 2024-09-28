@@ -5,7 +5,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
-import { sql  } from "@vercel/postgres";
+const { sql } = require('@vercel/postgres');
 
 const app = express();
 const PORT = 5000;
