@@ -2,7 +2,7 @@
 
 import { defineNuxtRouteMiddleware, navigateTo, useRouter } from 'nuxt/app';
 import { useAuthStore } from '~/stores/auth';
-import { useToast } from 'vue-toastification';
+import Toast, { useToast } from 'vue-toastification';
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
     const authStore = useAuthStore();

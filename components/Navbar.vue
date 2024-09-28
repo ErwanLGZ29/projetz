@@ -32,7 +32,7 @@
 
 <script>
 import { useAuthStore } from '~/stores/auth';
-import { useToast } from 'vue-toastification';
+import Toast, { useToast } from 'vue-toastification';
 
 const toast = useToast();
 const showLogoutToast = () => {
