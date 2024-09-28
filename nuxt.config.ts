@@ -21,6 +21,7 @@ export default defineNuxtConfig({
       API_URL: process.env.API_URL || 'http://localhost:5000/api', // Valeur par défaut si non définie dans .env
     }
   },
+  plugins: ['~/plugins/toast.client.ts'],
   vite: {
     optimizeDeps: {
       include: ['vue-toastification']
