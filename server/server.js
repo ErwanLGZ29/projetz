@@ -20,7 +20,13 @@ const dancersFilePath = path.join(__dirname, 'storage', 'dancers.json');
 
 async function getUsersList() {
   if(process.env.NODE_ENV === "production") {
-    return await sql`SELECT * FROM users`;
+    const result = await sql`SELECT * FROM users`;
+    const users = result.rows.map(user => ({
+      username: user.username,
+      email: user.email,
+      password: user.password
+    }));
+    return users;
   }else{
     return readUsersFromFile();
   }
