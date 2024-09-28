@@ -6,12 +6,17 @@
   },
   {
     "email": "erwan@mail.com",
-    "username": "ErwanLGZ",
+    "username": "ErwanLGZOui",
     "password": "password123"
   },
   {
     "email": "Enrique@mail.com",
     "username": "Enrique",
     "password": "dslqdfkqsldjkqsmldk"
+  },
+  {
+    "username": "sauce",
+    "email": "sauce@mail.com",
+    "password": "sqdqsdqsdqs"
   }
 ]

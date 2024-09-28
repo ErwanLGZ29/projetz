@@ -1,21 +1,21 @@
-<template >
-        <div class="container">
-            <div class="login-container">
-                <h1>Connexion</h1>
-                <div class="form-container">
-                    <form @submit.prevent="login">
-                        <input v-model="email" placeholder="Email" type="email" required />
-                        <input v-model="password" placeholder="Mot de passe" type="password" required />
-                        <button type="submit">Connexion</button>
-                        <NuxtLink to="/register">Ou inscrivez-vous</NuxtLink>
-                        <!-- error message -->
-                        <div class="error-message-container">
-                            <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-                        </div>
-                    </form>
-                </div>
+<template>
+    <div class="container">
+        <div class="login-container">
+            <h1>Connexion</h1>
+            <div class="form-container">
+                <form @submit.prevent="login">
+                    <input v-model="email" placeholder="Email" type="email" required />
+                    <input v-model="password" placeholder="Mot de passe" type="password" required />
+                    <button type="submit">Connexion</button>
+                    <NuxtLink to="/register">Ou inscrivez-vous</NuxtLink>
+                    <!-- error message -->
+                    <div class="error-message-container">
+                        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
 </template>
 
 <script setup>
@@ -25,12 +25,16 @@ definePageMeta({
     middleware: 'auth'
 });
 import { useAuthStore } from '~/stores/auth'
+import { useToast } from 'vue-toastification';
 
 const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
-const authStore = useAuthStore()
-
+const authStore = useAuthStore();
+const toast = useToast();
+const showLoginToast = () => {
+    toast.success("Connexion reussie !");
+};
 
 const login = async () => {
     errorMessage.value = null;
@@ -40,6 +44,7 @@ const login = async () => {
         errorMessage.value = null;
         // Redirect to the profile page
         navigateTo('/');
+        showLoginToast();
     } catch (error) {
         // Display an error message
         errorMessage.value = error;

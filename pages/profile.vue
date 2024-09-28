@@ -30,12 +30,21 @@ definePageMeta({
     middleware: 'auth'
 });
 import { useAuthStore } from '~/stores/auth';
+import { useToast } from 'vue-toastification';
 
 const authStore = useAuthStore();
 const email = ref("");
 const username = ref("");
 const errorMessage = ref('')
 // const password = ref("");
+
+const toast = useToast();
+    const showUpdateToast = () => {
+        toast.success("Modification reussie !");
+    };
+    const showDeleteToast = () => {
+        toast.info("Compte supprimé !");
+    };
 
 email.value = authStore.user.email || "";
 username.value = authStore.user.username || "";
@@ -46,6 +55,7 @@ const update = async () => {
                 // Call the update method from the auth service
                 await authStore.update(email.value, username.value);
                 errorMessage.value = null;
+                showUpdateToast();
             } catch (error) {
                 // Display an error message
                 errorMessage.value = error;
@@ -67,6 +77,7 @@ const deleteUser = async () => {
         await authStore.deleteUser(email.value);
         errorMessage.value = null;
         navigateTo('/');
+        showDeleteToast();
     } catch (error) {
         // Display an error message
         errorMessage.value = error;

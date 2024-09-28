@@ -24,20 +24,26 @@
                     <button class="logout" v-if="authStore.isAuthenticated" @click="logout">Déconnexion</button>
                 </div>
             </div>
-           
+
         </div>
-       
+
     </nav>
 </template>
 
 <script>
 import { useAuthStore } from '~/stores/auth';
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
+const showLogoutToast = () => {
+    toast.info("Déconnexion reussie !");
+};
 
 export default {
     data() {
         return {
             isColored: false,
-            isMenuOpen: false,  
+            isMenuOpen: false,
             isMobile: false
         };
     },
@@ -47,6 +53,9 @@ export default {
         }
     },
     mounted() {
+        //check route here
+        this.handleScroll(this.$route.name);
+
         this.checkWindowSize();
         window.addEventListener('scroll', this.handleScroll);
         window.addEventListener('resize', this.checkWindowSize);
@@ -58,16 +67,14 @@ export default {
     },
     watch: {
         $route($to, $from) {
-            if($to.name === 'index') {
-                this.isColored = false;
-            }else {
-                this.isColored = true;
-            }
+            this.handleScroll($to.name);
         }
     },
     methods: {
-        handleScroll() {
-            if (this.$route.name === 'index') {
+        handleScroll(pageName) {
+            if (typeof pageName !== 'string') pageName = this.$route.name;
+            if (pageName === 'index') {
+                // Check if the user has scrolled to the top
                 this.isColored = window.scrollY > 50;
             } else {
                 this.isColored = true;
@@ -85,7 +92,9 @@ export default {
         logout() {
             this.authStore.logout();
             this.$router.push('/');
+            showLogoutToast();
         }
+
     }
 };
 </script>
@@ -121,7 +130,8 @@ nav {
         }
 
         .hamburger {
-            display: none; /* Caché par défaut */
+            display: none;
+            /* Caché par défaut */
 
             @media screen and (max-width: 768px) {
                 display: flex;
@@ -130,7 +140,7 @@ nav {
                 border: none;
                 cursor: pointer;
                 padding: 0.5rem;
-                
+
                 .line {
                     width: 25px;
                     height: 3px;
@@ -152,7 +162,7 @@ nav {
                 gap: 2rem;
 
             }
-            
+
 
             a {
                 font-size: 1.5rem;
@@ -167,7 +177,8 @@ nav {
             }
 
             @media screen and (max-width: 768px) {
-                display: none;  /* Masqué sur mobile par défaut */
+                display: none;
+                /* Masqué sur mobile par défaut */
                 position: absolute;
                 width: 60%;
                 top: 60px;
@@ -183,7 +194,8 @@ nav {
                 }
 
                 &.open {
-                    display: flex;  /* Afficher quand isMenuOpen est true */
+                    display: flex;
+                    /* Afficher quand isMenuOpen est true */
                 }
 
                 a {

@@ -25,12 +25,18 @@ definePageMeta({
     middleware: 'auth'
 });
 import { useAuthStore } from "~/stores/auth";
+import { useToast } from 'vue-toastification';
 
 const username = ref("");
 const email = ref("");
 const password = ref("");
 const errorMessage = ref("");
 const authStore = useAuthStore();
+
+const toast = useToast();
+const showRegisterToast = () => {
+    toast.success("Inscription reussie !");
+};
 
 const register = async () => {
     errorMessage.value = null;
@@ -41,6 +47,7 @@ const register = async () => {
         errorMessage.value = null;
         // Redirect to the login page
         navigateTo("/login");
+        showRegisterToast();
     } catch (error) {
         // Display an error message
         errorMessage.value = error;
