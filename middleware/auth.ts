@@ -8,9 +8,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const authStore = useAuthStore();
     const router = useRouter(); 
 
-    const toast = useToast();
     const showRedirectToast = () => {
-        toast.info("Vous devez être connecté pour accéder à cette page !");
+        useToast().info("Vous devez être connecté pour accéder à cette page !");
     };
 
     // Check if the user is authenticated

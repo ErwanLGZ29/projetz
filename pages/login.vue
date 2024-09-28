@@ -31,9 +31,8 @@ const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
 const authStore = useAuthStore();
-const toast = useToast();
 const showLoginToast = () => {
-    toast.success("Connexion reussie !");
+    useToast().success("Connexion reussie !");
 };
 
 const login = async () => {

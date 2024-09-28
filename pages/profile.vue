@@ -38,12 +38,11 @@ const username = ref("");
 const errorMessage = ref('')
 // const password = ref("");
 
-const toast = useToast();
     const showUpdateToast = () => {
-        toast.success("Modification reussie !");
+        useToast().success("Modification reussie !");
     };
     const showDeleteToast = () => {
-        toast.info("Compte supprimé !");
+        useToast().info("Compte supprimé !");
     };
 
 email.value = authStore.user.email || "";

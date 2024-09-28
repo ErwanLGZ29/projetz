@@ -33,9 +33,8 @@ const password = ref("");
 const errorMessage = ref("");
 const authStore = useAuthStore();
 
-const toast = useToast();
 const showRegisterToast = () => {
-    toast.success("Inscription reussie !");
+    useToast().success("Inscription reussie !");
 };
 
 const register = async () => {

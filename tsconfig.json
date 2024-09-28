@@ -1,13 +1,14 @@
 {
   "extends": "./.nuxt/tsconfig.json",
-  "compilerOptions": {
+ "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Node",
     "types": ["jest", "@types/jest"],
     "strict": true,
     "skipLibCheck": true,
     "verbatimModuleSyntax": false,
-    "esModuleInterop": true 
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src/**/*", 
