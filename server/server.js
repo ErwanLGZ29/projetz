@@ -5,7 +5,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
-import { get, set } from '@vercel/edge-config';
+import { sql  } from "@vercel/postgres";
 
 const app = express();
 const PORT = 5000;
@@ -20,7 +20,7 @@ const dancersFilePath = path.join(__dirname, 'storage', 'dancers.json');
 
 async function getUsersList() {
   if(process.env.NODE_ENV === "production") {
-    return await get('users') || [];
+    return await sql`SELECT * FROM users`;
   }else{
     return readUsersFromFile();
   }
@@ -34,21 +34,13 @@ const readUsersFromFile = () => {
 
 //Write users from file on server storage
 const writeUsersToFile = async (users) => {
-  //if production, write on storage
-  if (process.env.NODE_ENV === "production") {
-    await set('users', users);
-  }else{
-    fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
-  }
+  fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
 };
 
 const readDancersFromFile = () => {
   const data = fs.readFileSync(dancersFilePath, "utf8");
   return JSON.parse(data);
 };
-
-
-
 
 // Register a new user
 app.post("/api/register", async (req, res) => {
@@ -62,8 +54,14 @@ app.post("/api/register", async (req, res) => {
 
   const newUser = { username, email, password };
   users.push(newUser);
-  await writeUsersToFile(users);
 
+  if(process.env.NODE_ENV === "production") {
+    sql`INSERT INTO users (username, email, password) VALUES (${username}, ${email}, ${password})`; 
+  }else{
+    await writeUsersToFile(users);
+
+  }
+  
   res.status(201).json({ message: "Utilisateur créé avec succès" });
 });
 
@@ -95,7 +93,12 @@ app.put("/api/user", (req, res) => {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
     users[userIndex] = { email: users[userIndex].email, username, password: users[userIndex].password };
-    await writeUsersToFile(users);
+
+    if(process.env.NODE_ENV === "production"){
+      await sql`UPDATE users SET username = ${username} WHERE email = ${email}`;
+    }else{
+      await writeUsersToFile(users);
+    }
     let user = users[userIndex];
     res.status(200).json({ token, user });
   });
@@ -108,7 +111,12 @@ app.delete("/api/user", (req, res) => {
   authenticate(res, email, token, async () => {
     let users = await getUsersList();
     users = users.filter((user) => user.email !== email);
-    await writeUsersToFile(users);
+
+    if(process.env.NODE_ENV === "production"){
+      await sql`DELETE FROM users WHERE email = ${email}`;
+    }else{
+      await writeUsersToFile(users);
+    }
     res.sendStatus(204);
   });
 });
