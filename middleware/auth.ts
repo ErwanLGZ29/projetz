@@ -2,11 +2,12 @@
 
 import { defineNuxtRouteMiddleware, navigateTo, useRouter } from 'nuxt/app';
 import { useAuthStore } from '~/stores/auth';
-import Toast, { useToast } from 'vue-toastification';
+import { useToast } from 'vue-toastification';
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
     const authStore = useAuthStore();
     const router = useRouter(); 
+
     const toast = useToast();
     const showRedirectToast = () => {
         toast.info("Vous devez être connecté pour accéder à cette page !");
