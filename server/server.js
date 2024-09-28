@@ -20,7 +20,7 @@ const dancersFilePath = path.join(__dirname, 'storage', 'dancers.json');
 
 async function getUsersList() {
   if(process.env.NODE_ENV === "production") {
-    return existingUsers = await get('users') || [];
+    return await get('users') || [];
   }else{
     return readUsersFromFile();
   }
