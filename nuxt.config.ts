@@ -14,6 +14,7 @@ export default defineNuxtConfig({
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' } // Pour un favicon.ico
     ]
   },
+  build: { transpile: ['vue-toastification'] },
   modules: ["@pinia/nuxt"],
   ssr: true,
   runtimeConfig: {
