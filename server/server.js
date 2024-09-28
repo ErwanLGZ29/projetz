@@ -5,6 +5,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
+const createEdgeConfig = require("@vercel/edge-config");
 
 const app = express();
 const PORT = 5000;
@@ -13,12 +14,16 @@ const SECRET_KEY = "your_secret_key"; // Change this in production
 app.use(cors());
 app.use(bodyParser.json());
 
+if(process.env.NODE_ENV === "production"){
+  const edgeConfig = createEdgeConfig();
+}
+
 const usersFilePath = path.join(__dirname, 'storage', 'users.json');
 const dancersFilePath = path.join(__dirname, 'storage', 'dancers.json');
 
-function getUsersList() {
-  if (process.env.NODE_ENV === "production") {
-    return usersList;
+async function getUsersList() {
+  if(process.env.NODE_ENV === "production") {
+    return existingUsers = await edgeConfig.get('users') || [];
   }else{
     return readUsersFromFile();
   }
@@ -26,16 +31,15 @@ function getUsersList() {
 //Read users from file on server storage
 const readUsersFromFile = () => {
   const data = fs.readFileSync(usersFilePath, "utf8");
+  console.log(data);
   return JSON.parse(data);
 };
 
-let usersList = readUsersFromFile();
-
 //Write users from file on server storage
-const writeUsersToFile = (users) => {
+const writeUsersToFile = async (users) => {
   //if production, write on storage
   if (process.env.NODE_ENV === "production") {
-    usersList = users;
+    await edgeConfig.set('users', users);
   }else{
     fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
   }
@@ -50,10 +54,10 @@ const readDancersFromFile = () => {
 
 
 // Register a new user
-app.post("/api/register", (req, res) => {
+app.post("/api/register", async (req, res) => {
   const { username, email, password } = req.body;
 
-  let users = getUsersList();
+  let users = await getUsersList();
   const existingUser = users.find((user) => user.email === email);
   if (existingUser) {
     return res.status(400).json({ message: "Cet email est déjà utilisé" });
@@ -61,16 +65,17 @@ app.post("/api/register", (req, res) => {
 
   const newUser = { username, email, password };
   users.push(newUser);
-  writeUsersToFile(users);
+  await writeUsersToFile(users);
 
   res.status(201).json({ message: "Utilisateur créé avec succès" });
 });
 
 // Login a user
-app.post("/api/login", (req, res) => {
+app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
 
-  let users = getUsersList();
+  let users = await getUsersList();
+  console.log('login',users);
   const user = users.find((user) => user.email === email);
   if (!user || user.password !== password) {
     return res.status(401).json({ message: "Email ou mot de passe incorrect" });
@@ -86,14 +91,14 @@ app.post("/api/login", (req, res) => {
 app.put("/api/user", (req, res) => {
   const { email , username} = req.body;
   const token = req.headers["authorization"];
-  authenticate(res, email, token, () => {
-    let users = getUsersList();
+  authenticate(res, email, token, async () => {
+    let users = await getUsersList();
     const userIndex = users.findIndex((user) => user.email === email);
     if (userIndex === -1) {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
     users[userIndex] = { email: users[userIndex].email, username, password: users[userIndex].password };
-    writeUsersToFile(users);
+    await writeUsersToFile(users);
     let user = users[userIndex];
     res.status(200).json({ token, user });
   });
@@ -103,10 +108,10 @@ app.put("/api/user", (req, res) => {
 app.delete("/api/user", (req, res) => {
   const { email } = req.query;
   const token = req.headers["authorization"];
-  authenticate(res, email, token, () => {
-    let users = getUsersList();
+  authenticate(res, email, token, async () => {
+    let users = await getUsersList();
     users = users.filter((user) => user.email !== email);
-    writeUsersToFile(users);
+    await writeUsersToFile(users);
     res.sendStatus(204);
   });
 });
