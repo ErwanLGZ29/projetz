@@ -62,7 +62,7 @@ app.post("/api/register", async (req, res) => {
   if(process.env.NODE_ENV === "production") {
     const query = `
       INSERT INTO users (username, email, password) 
-      VALUES (?, ?, ?)
+      VALUES ($1, $2, $3)
     `;
     await sql.query(query, [username, email, password]);
   }else{
@@ -104,8 +104,8 @@ app.put("/api/user", (req, res) => {
     if(process.env.NODE_ENV === "production"){
         const query = `
           UPDATE users 
-          SET username = ? 
-          WHERE email = ?
+          SET username = $1 
+          WHERE email = $2
         `;
     await sql.query(query, [username, email]);
     }else{
