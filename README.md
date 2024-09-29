@@ -1,13 +1,17 @@
-# NUXT INTO CI WITH SSR
-
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# Project Z with a Front on NuxtJs And A Back with NodeJS
 
 ## Setup
 
-Make sure to install the dependencies:
+Make sure to install the all dependencies:
 
 ```bash
 # npm
+npm install
+```
+
+```bash
+# npm
+cd server
 npm install
 ```
 

@@ -19,13 +19,12 @@ const authStore = useAuthStore();
 // Get dancers list from API
 async function fetchDancers() {
     try {
-        if(authStore.isAuthenticated) {
-            const user = authStore.user;
-            return await authStore.getDancersList(user.email);
-        }else{
-            console.log('User not authenticated');
-            return [];
-        }
+        if(!authStore.isAuthenticated) {
+			     console.log('User not authenticated');
+           return [];
+		    }
+        const { user: { email } } = authStore;
+        return authStore.getDancersList(email);
     } catch (error) {
         console.error('erreur',error);
         return [];

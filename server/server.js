@@ -18,8 +18,10 @@ app.use(bodyParser.json());
 const usersFilePath = path.join(__dirname, 'storage', 'users.json');
 const dancersFilePath = path.join(__dirname, 'storage', 'dancers.json');
 
-async function getUsersList() {
-  if(process.env.NODE_ENV === "production") {
+async function getUsers() {
+  if(process.env.NODE_ENV !== "production") {
+    return readUsersFromFile();
+  }
     const result = await sql`SELECT * FROM users`;
     const users = result.rows.map(user => ({
       username: user.username,
@@ -27,9 +29,6 @@ async function getUsersList() {
       password: user.password
     }));
     return users;
-  }else{
-    return readUsersFromFile();
-  }
 }
 //Read users from file on server storage
 const readUsersFromFile = () => {
@@ -51,10 +50,9 @@ const readDancersFromFile = () => {
 // Register a new user
 app.post("/api/register", async (req, res) => {
   const { username, email, password } = req.body;
-
-  let users = await getUsersList();
-  const existingUser = users.find((user) => user.email === email);
-  if (existingUser) {
+  const users = await getUsers();
+  const isExistingUser = users.some((user) => user.email === email)
+  if (isExistingUser) {
     return res.status(400).json({ message: "Cet email est déjà utilisé" });
   }
 
@@ -62,10 +60,13 @@ app.post("/api/register", async (req, res) => {
   users.push(newUser);
 
   if(process.env.NODE_ENV === "production") {
-    sql`INSERT INTO users (username, email, password) VALUES (${username}, ${email}, ${password})`; 
+    const query = `
+      INSERT INTO users (username, email, password) 
+      VALUES (?, ?, ?)
+    `;
+    await sql.query(query, [username, email, password]);
   }else{
     await writeUsersToFile(users);
-
   }
   
   res.status(201).json({ message: "Utilisateur créé avec succès" });
@@ -75,10 +76,10 @@ app.post("/api/register", async (req, res) => {
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
 
-  let users = await getUsersList();
+  const users = await getUsers();
   console.log('login',users);
   const user = users.find((user) => user.email === email);
-  if (!user || user.password !== password) {
+  if(user?.password !== password) {
     return res.status(401).json({ message: "Email ou mot de passe incorrect" });
   }
 
@@ -93,7 +94,7 @@ app.put("/api/user", (req, res) => {
   const { email , username} = req.body;
   const token = req.headers["authorization"];
   authenticate(res, email, token, async () => {
-    let users = await getUsersList();
+    let users = await getUsers();
     const userIndex = users.findIndex((user) => user.email === email);
     if (userIndex === -1) {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
@@ -101,7 +102,12 @@ app.put("/api/user", (req, res) => {
     users[userIndex] = { email: users[userIndex].email, username, password: users[userIndex].password };
 
     if(process.env.NODE_ENV === "production"){
-      await sql`UPDATE users SET username = ${username} WHERE email = ${email}`;
+        const query = `
+          UPDATE users 
+          SET username = ? 
+          WHERE email = ?
+        `;
+    await sql.query(query, [username, email]);
     }else{
       await writeUsersToFile(users);
     }
@@ -115,7 +121,7 @@ app.delete("/api/user", (req, res) => {
   const { email } = req.query;
   const token = req.headers["authorization"];
   authenticate(res, email, token, async () => {
-    let users = await getUsersList();
+    let users = await getUsers();
     users = users.filter((user) => user.email !== email);
 
     if(process.env.NODE_ENV === "production"){

@@ -1,6 +1,7 @@
 
 import { defineStore } from 'pinia';
 import { authService } from '~/services/authService';
+import { AxiosError } from 'axios';
 
 interface User {
     username: string;
@@ -22,8 +23,12 @@ export const useAuthStore = defineStore('auth', {
         async register(username: string, email: string, password: string) {
             try {
                 await authService.register(username, email, password);
-            } catch (error: any) {
-                throw error.response?.data?.message || error;
+            } catch (error) {
+                if (error instanceof AxiosError && error.response) {
+                    throw error.response?.data?.message || error;
+                } else {
+                    throw error;
+                }
             }
         },
         async login(email: string, password: string) {
@@ -32,8 +37,12 @@ export const useAuthStore = defineStore('auth', {
                 localStorage.setItem("current_user_token", response.data.token);
                 localStorage.setItem("current_user", JSON.stringify(response.data.user));
                 this.checkAuthentication();
-            } catch (error: any) {
-                throw error.response?.data?.message || error;
+            } catch (error) {
+                if (error instanceof AxiosError && error.response) {
+                    throw error.response?.data?.message || error;
+                } else {
+                    throw error;
+                }
             }
         },
         async update(email: string, username: string) {
@@ -42,8 +51,12 @@ export const useAuthStore = defineStore('auth', {
                 const response = await authService.update(email, username, token);
                 localStorage.setItem("current_user", JSON.stringify(response.data.user));
                 this.checkAuthentication();
-            } catch (error: any) {
-                throw error.response?.data?.message || error;
+            } catch (error) {
+                if (error instanceof AxiosError && error.response) {
+                    throw error.response?.data?.message || error;
+                } else {
+                    throw error;
+                }
             }
         },
 
@@ -52,8 +65,12 @@ export const useAuthStore = defineStore('auth', {
                 const token = process.client ? localStorage.getItem('current_user_token') || 'null' : 'null';
                 const response = await authService.getDancersList(email, token);
                 return response.data.dancers;
-            } catch (error: any) {
-                throw error.response?.data?.message || error;
+            } catch (error) {
+                if (error instanceof AxiosError && error.response) {
+                    throw error.response?.data?.message || error;
+                } else {
+                    throw error;
+                }
             }
         },
 
@@ -64,8 +81,12 @@ export const useAuthStore = defineStore('auth', {
                 localStorage.removeItem("current_user");
                 localStorage.removeItem("current_user_token");
                 this.checkAuthentication();
-            } catch (error: any) {
-                throw error.response?.data?.message || error;
+            } catch (error) {
+                if (error instanceof AxiosError && error.response) {
+                    throw error.response?.data?.message || error;
+                } else {
+                    throw error;
+                }
             }
         },
 

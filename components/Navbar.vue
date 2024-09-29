@@ -79,6 +79,9 @@ export default {
             } else {
                 this.isColored = true;
             }
+            if (this.isMobile && this.isMenuOpen) {
+                this.isMenuOpen = false;
+            }
         },
         toggleMenu() {
             this.isMenuOpen = !this.isMenuOpen;

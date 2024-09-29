@@ -1,5 +1,6 @@
 import { authService } from "../../services/authService";
 import { describe, it, expect } from "@jest/globals";
+import { AxiosError } from 'axios';
 
 const user = {
   username: "testuser",
@@ -23,9 +24,9 @@ describe("Auth Service - Register", () => {
     try {
       await authService.register(user.username, user.email, user.password);
     } catch (error) {
-      if (error instanceof Error && (error as any).response) {
-        const axiosError = error as any;
-        expect(axiosError.response.status).toBe(400);
+      if (error instanceof AxiosError && error.response) {
+        const axiosError = error as AxiosError;
+        expect(axiosError.response!.status).toBe(400);
       }
     }
   });
@@ -36,9 +37,9 @@ describe("Auth Service - Login", () => {
     try {
       await authService.login(user.email + "NAN", user.password + "NAN");
     } catch (error) {
-      if (error instanceof Error && (error as any).response) {
-        const axiosError = error as any;
-        expect(axiosError.response.status).toBe(401);
+      if (error instanceof AxiosError && error.response) {
+        const axiosError = error as AxiosError;
+        expect(axiosError.response!.status).toBe(401);
       }
     }
   });
@@ -54,9 +55,9 @@ describe("Auth Service - Login", () => {
     try {
       await authService.checkToken(user.email, "invalidToken");
     } catch (error) {
-      if (error instanceof Error && (error as any).response) {
-        const axiosError = error as any;
-        expect(axiosError.response.status).toBe(403);
+      if (error instanceof AxiosError && error.response) {
+        const axiosError = error as AxiosError;
+        expect(axiosError.response!.status).toBe(403);
       }
     }
   });
@@ -75,10 +76,10 @@ describe("Auth Service - Login", () => {
     try {
         await authService.deleteUser(user.email, "");
     } catch (error) {
-        if (error instanceof Error && (error as any).response) {    
-        const axiosError = error as any;
-        expect(axiosError.response.status).toBe(403);
-        }
+      if (error instanceof AxiosError && error.response) {
+        const axiosError = error as AxiosError;
+        expect(axiosError.response!.status).toBe(403);
+      }
     }
   });
 
@@ -86,9 +87,9 @@ describe("Auth Service - Login", () => {
     try {
         await authService.deleteUser(user.email, "invalidToken");
     } catch (error) {
-        if (error instanceof Error && (error as any).response) {    
-        const axiosError = error as any;
-        expect(axiosError.response.status).toBe(403);
+      if (error instanceof AxiosError && error.response) {
+        const axiosError = error as AxiosError;
+        expect(axiosError.response!.status).toBe(403);
         }
     }
   });
