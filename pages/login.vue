@@ -55,10 +55,16 @@ const login = async () => {
 
 <style lang="scss" scoped>
 .login-container {
-    width: 50%;
+    width: 30%;
     height: auto;
     margin: 6rem auto;
     min-height: 71vh;
+}
+
+@media screen and (max-width: 1300px) {
+    .login-container {
+        width: 50%;
+    }
 }
 
 @media screen and (max-width: 768px) {

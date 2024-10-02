@@ -1,7 +1,7 @@
 <template>
         <div class="container">
             <div class="profile-container">
-                <h1>Profile</h1>
+                <h1>Profil</h1>
                 <div class="form-container">
                     <img src="/userprofile.png" alt="profile" class="profile"/>
                     <form @submit.prevent="update">
@@ -11,7 +11,7 @@
                         <input v-model="username" placeholder="Username" required />
                         <!-- <label for="password">Mot de passe</label>
                         <input v-model="password" placeholder="Mot de passe" type="password" /> -->
-                        <button type="submit">Modifier le Profile</button>
+                        <button type="submit">Modifier le Profil</button>
                         <!-- error message -->
                         <div class="error-message-container">
                             <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
@@ -88,7 +88,7 @@ const deleteUser = async () => {
 
 <style lang="scss" scoped>
 .profile-container {
-    width: 50%;
+    width: 30%;
     height: auto;
     margin: 6rem auto;
     min-height: 71vh;
@@ -120,7 +120,7 @@ label {
 
 .delete-button {
     margin-top: 2rem;
-    width: 30%;
+    width: 50%;
     height: 3rem;
     border-radius: 2rem;
     background-color: red;
@@ -133,9 +133,12 @@ label {
 
 @media screen and (max-width: 1300px) {
     .delete-button {
+        width: 60%;
+    }
+
+    .profile-container {
         width: 50%;
     }
-    
 }
 
 @media screen and (max-width: 768px) {

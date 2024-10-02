@@ -62,7 +62,7 @@ export const useAuthStore = defineStore('auth', {
 
         async getDancersList(email: string) {
             try {
-                const token = process.client ? localStorage.getItem('current_user_token') || 'null' : 'null';
+                const token = localStorage.getItem('current_user_token') || 'null';
                 const response = await authService.getDancersList(email, token);
                 return response.data.dancers;
             } catch (error) {
