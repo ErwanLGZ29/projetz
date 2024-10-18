@@ -134,7 +134,6 @@ nav {
 
         .hamburger {
             display: none;
-            /* Caché par défaut */
 
             @media screen and (max-width: 768px) {
                 display: flex;
@@ -181,7 +180,6 @@ nav {
 
             @media screen and (max-width: 768px) {
                 display: none;
-                /* Masqué sur mobile par défaut */
                 position: absolute;
                 width: 60%;
                 top: 60px;
@@ -198,7 +196,6 @@ nav {
 
                 &.open {
                     display: flex;
-                    /* Afficher quand isMenuOpen est true */
                 }
 
                 a {
@@ -213,6 +210,11 @@ nav {
         display: flex;
         align-items: center;
         gap: 1rem;
+
+        @media screen and (max-width: 768px) {
+            gap: 0;
+            flex-direction: column;
+        }
 
         .profile-link {
             display: flex;
